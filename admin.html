@@ -14,6 +14,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Real-Time Sync Engine -->
+<script src="sync.js"></script>
 
 <style>
 /* ============================================================
@@ -449,6 +451,218 @@ table.data-table td.num { text-align: right; font-variant-numeric: tabular-nums;
   .sidebar, .topbar, .panel-toolbar, .no-print { display: none !important; }
   .content-body { padding: 0 !important; }
 }
+
+/* REAL-TIME SYNC BADGE */
+.sync-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.sync-status-pill.sync-online {
+  background: #ecfdf5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+.sync-status-pill.sync-working {
+  background: #eff6ff;
+  color: #1e40af;
+  border-color: #bfdbfe;
+  animation: pulseSync 1.4s infinite;
+}
+.sync-status-pill.sync-offline {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #cbd5e1;
+}
+.sync-status-pill.sync-connecting {
+  background: #fffbeb;
+  color: #92400e;
+  border-color: #fde68a;
+}
+@keyframes pulseSync { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+/* MOBILE BOTTOM NAVIGATION */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 62px;
+  background: #090d16;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.2);
+  z-index: 85;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: max(6px, env(safe-area-inset-bottom, 0px));
+}
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.68rem;
+  font-weight: 600;
+  cursor: pointer;
+  gap: 2px;
+  padding: 4px 0;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+.bottom-nav-item.active {
+  color: #14b8a6;
+  font-weight: 800;
+}
+.bottom-nav-item .nav-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+.bottom-badge {
+  position: absolute;
+  top: 4px;
+  right: calc(50% - 16px);
+  background: #ef4444;
+  color: white;
+  font-size: 0.62rem;
+  border-radius: 10px;
+  padding: 1px 5px;
+  font-weight: 800;
+}
+
+/* SIDEBAR BACKDROP */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(3px);
+  z-index: 95;
+}
+.sidebar-backdrop.active {
+  display: block;
+}
+
+.mobile-toggle {
+  display: none;
+}
+
+/* RESPONSIVE FOR MOBILE PHONES */
+@media (max-width: 960px) {
+  body {
+    padding-bottom: 70px;
+  }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 285px;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+    box-shadow: 6px 0 28px rgba(0, 0, 0, 0.4);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .mobile-bottom-nav {
+    display: flex;
+  }
+  .mobile-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--bg-page);
+    border: 1px solid var(--border);
+    font-size: 1.25rem;
+    cursor: pointer;
+  }
+  .topbar {
+    padding: 10px 14px;
+    gap: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+  }
+  .topbar-title h1 {
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
+  }
+  .content-body {
+    padding: 12px 10px;
+  }
+  .branch-cards-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px;
+  }
+  .panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .panel-toolbar {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .panel-toolbar .btn,
+  .panel-toolbar select,
+  .panel-toolbar input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar-title h1 {
+    max-width: 120px;
+    font-size: 0.92rem;
+  }
+  .kpi-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .modal-dialog {
+    width: 95% !important;
+    max-height: 88vh;
+    padding: 16px 14px;
+    margin: 10px auto;
+  }
+  .login-card {
+    padding: 24px 18px;
+  }
+  .data-table th, .data-table td {
+    padding: 8px 8px;
+    font-size: 0.82rem;
+  }
+}
 </style>
 </head>
 <body>
@@ -623,6 +837,9 @@ function saveDataLocal() {
 
 async function persist() {
   saveDataLocal();
+  if (typeof SyncEngine !== 'undefined') {
+    await SyncEngine.pushUpdate(DATA);
+  }
 }
 
 function calculateMaharashtraPT(salary, ym, isExempt) {
@@ -733,6 +950,7 @@ function renderApp() {
 
   root.innerHTML = `
     <div class="app-container">
+      <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleMobileSidebar()"></div>
       <aside class="sidebar">
         <div class="brand-header">
           <div class="brand-badge">VE</div>
@@ -785,9 +1003,20 @@ function renderApp() {
       <div class="main-wrapper">
         <header class="topbar">
           <div class="topbar-title">
-            <h1>Vedant Enterprises — ${isMr ? 'मुख्य ऍडमिन पोर्टल' : 'Central Admin Portal'}</h1>
+            <button class="mobile-toggle" onclick="toggleMobileSidebar()" aria-label="Menu">☰</button>
+            <div>
+              <h1>${isMr ? 'मुख्य ऍडमिन पोर्टल' : 'Central Admin'}</h1>
+              <div style="font-size:0.75rem;color:var(--teal);font-weight:700;">
+                🏢 Vedant Headquarters
+              </div>
+            </div>
           </div>
           <div class="topbar-actions">
+            <!-- Live Multi-Device Sync Pill -->
+            <div id="topbarSyncBadge" class="sync-status-pill sync-connecting" onclick="openSyncSettingsModal()" title="मल्टि-डिव्हाइस सिंक स्थिती">
+              <span>🟢</span> <span>${isMr ? 'सिंक चालू' : 'Live Synced'}</span>
+            </div>
+
             <div class="lang-switch">
               <button class="lang-btn ${isMr ? 'active' : ''}" onclick="switchLang('mr')">मराठी</button>
               <button class="lang-btn ${!isMr ? 'active' : ''}" onclick="switchLang('en')">English</button>
@@ -802,16 +1031,120 @@ function renderApp() {
           ${renderAdminContent(cycle)}
         </div>
       </div>
+      ${renderMobileBottomNav()}
     </div>
   `;
 
   checkPwaInstallable();
+  if (typeof SyncEngine !== 'undefined') SyncEngine.renderBadge();
+}
+
+function toggleMobileSidebar() {
+  uiState.mobileSidebarOpen = !uiState.mobileSidebarOpen;
+  const s = document.querySelector('.sidebar');
+  const b = document.getElementById('sidebarBackdrop');
+  if (s) s.classList.toggle('open', uiState.mobileSidebarOpen);
+  if (b) b.classList.toggle('active', uiState.mobileSidebarOpen);
+}
+
+function renderMobileBottomNav() {
+  const isMr = (currentLang === 'mr');
+  const pendingCount = (DATA.dateChangeRequests || []).filter(r => r.status === 'pending').length;
+  return `
+    <nav class="mobile-bottom-nav">
+      <button class="bottom-nav-item ${uiState.currentTab === 'overview' ? 'active' : ''}" onclick="switchTab('overview')">
+        <span class="nav-icon">🏠</span>
+        <span>${isMr ? 'शाखा' : 'Branches'}</span>
+      </button>
+      <button class="bottom-nav-item ${uiState.currentTab === 'approvals' ? 'active' : ''}" onclick="switchTab('approvals')">
+        <span class="nav-icon">🔐</span>
+        <span>${isMr ? 'मंजुरी' : 'Approvals'}</span>
+        ${pendingCount > 0 ? `<span class="bottom-badge">${pendingCount}</span>` : ''}
+      </button>
+      <button class="bottom-nav-item ${uiState.currentTab === 'consolidated' ? 'active' : ''}" onclick="switchTab('consolidated')">
+        <span class="nav-icon">📊</span>
+        <span>${isMr ? 'वेतन' : 'Payroll'}</span>
+      </button>
+      <button class="bottom-nav-item ${uiState.currentTab === 'allAdvances' ? 'active' : ''}" onclick="switchTab('allAdvances')">
+        <span class="nav-icon">💰</span>
+        <span>${isMr ? 'ॲडव्हान्स' : 'Advances'}</span>
+      </button>
+      <button class="bottom-nav-item" onclick="toggleMobileSidebar()">
+        <span class="nav-icon">☰</span>
+        <span>${isMr ? 'अधिक' : 'More'}</span>
+      </button>
+    </nav>
+  `;
+}
+
+function openSyncSettingsModal() {
+  const isMr = (currentLang === 'mr');
+  const currentUrl = typeof SyncEngine !== 'undefined' ? SyncEngine.getServerUrl() : 'http://localhost:5000';
+  const status = typeof SyncEngine !== 'undefined' ? SyncEngine.status : 'offline';
+  const statusLabel = status === 'online'
+    ? (isMr ? '🟢 ऑनलाइन व सिंक सक्रिय (Connected)' : '🟢 Online & Live Synced')
+    : (status === 'syncing' ? (isMr ? '🔄 सिंक होत आहे...' : '🔄 Syncing...') : (isMr ? '⚪ स्थानिक मोड (ऑफलाइन)' : '⚪ Offline / Local'));
+
+  openModal(`
+    <div style="padding:10px;">
+      <h3 style="margin-bottom:12px;color:var(--primary-accent);font-weight:800;display:flex;align-items:center;gap:8px;">
+        <span>🔄</span> ${isMr ? 'मल्टि-डिव्हाइस ऑटोमॅटिक सिंक' : 'Multi-Device Automatic Sync'}
+      </h3>
+      <p style="font-size:0.86rem;color:var(--ink-muted);margin-bottom:16px;line-height:1.5;">
+        ${isMr
+          ? 'कोणत्याही शाखेने केलेली हजेरी नोंद, ॲडव्हान्स किंवा विनंती <b>मुख्य ऍडमिनच्या मोबाईल/लॅपटॉपवर आपोआप रिअल-टाईम सिंक</b> होते.'
+          : 'Any attendance or updates made by any branch <b>automatically sync to admin</b> in real time across all devices.'}
+      </p>
+
+      <div style="background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-weight:700;font-size:0.85rem;">${isMr ? 'सध्याची सिंक स्थिती:' : 'Current Sync Status:'}</span>
+          <span style="font-weight:700;font-size:0.85rem;">${statusLabel}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;color:var(--ink-muted);">
+          <span>${isMr ? 'शेवटचा सिंक:' : 'Last Synced:'}</span>
+          <span>${typeof SyncEngine !== 'undefined' && SyncEngine.lastSyncTime ? SyncEngine.lastSyncTime.toLocaleTimeString() : (isMr ? 'आत्ता' : 'Just now')}</span>
+        </div>
+      </div>
+
+      <div class="form-field" style="margin-bottom:14px;">
+        <label>${isMr ? 'सिंक सर्व्हर पत्ता (Server URL):' : 'Sync Server URL:'}</label>
+        <input type="text" id="syncServerUrlInp" value="${esc(currentUrl)}" placeholder="http://192.168.x.x:5000">
+        <small style="color:var(--ink-muted);font-size:0.75rem;margin-top:4px;">
+          ${isMr ? 'उदा. http://192.168.31.168:5000 किंवा क्लाउड URL' : 'e.g. http://192.168.31.168:5000 or cloud URL'}
+        </small>
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap;">
+        <button class="btn btn-outline" onclick="handleManualSyncPull()">${isMr ? 'ताजी माहिती आणा (Pull)' : 'Pull Data'}</button>
+        <button class="btn btn-primary" onclick="handleSaveSyncUrl()">${isMr ? 'जतन करा व कनेक्ट करा' : 'Save & Connect'}</button>
+      </div>
+    </div>
+  `);
+}
+
+async function handleSaveSyncUrl() {
+  const inp = document.getElementById('syncServerUrlInp');
+  if (inp && typeof SyncEngine !== 'undefined') {
+    SyncEngine.setServerUrl(inp.value.trim());
+    showToast(currentLang === 'mr' ? 'सिंक सर्व्हर अद्ययावत झाला!' : 'Sync server updated!', 'success');
+    closeModal();
+  }
+}
+
+async function handleManualSyncPull() {
+  if (typeof SyncEngine !== 'undefined') {
+    showToast(currentLang === 'mr' ? 'सर्व्हरवरून सिंक सुरू आहे...' : 'Syncing from server...', 'info');
+    await SyncEngine.initialFetch();
+  }
+  closeModal();
 }
 
 function switchTab(t) {
   uiState.currentTab = t;
   uiState.mainViewingBranchId = null;
   uiState.mainIndivEmpId = null;
+  uiState.mobileSidebarOpen = false;
   renderApp();
 }
 
@@ -1438,6 +1771,20 @@ if ('serviceWorker' in navigator) {
     isAdminLoggedIn = true;
   }
   renderApp();
+
+  // Initialize Real-Time Multi-Device Sync for Central Admin
+  if (typeof SyncEngine !== 'undefined') {
+    SyncEngine.init((remoteData, isLivePush) => {
+      if (remoteData && Array.isArray(remoteData.branches)) {
+        DATA = remoteData;
+        saveDataLocal();
+        if (isLivePush) {
+          showToast(currentLang === 'mr' ? '🔄 शाखेकडून नवीन अपडेट आले!' : '🔄 Live update received from branch!', 'success');
+        }
+        renderApp();
+      }
+    });
+  }
 })();
 </script>
 </body>
