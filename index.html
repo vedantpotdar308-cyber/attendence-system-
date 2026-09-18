@@ -1,0 +1,4194 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vedant Enterprises | Attendance & Salary Management System</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#1e40af">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   DESIGN SYSTEM & THEME
+   ============================================================ */
+:root {
+  --primary: #1e40af;
+  --primary-dark: #1e3a8a;
+  --primary-light: #3b82f6;
+  --primary-soft: #eff6ff;
+  --accent: #0d9488;
+  --accent-soft: #f0fdfa;
+  --ink: #0f172a;
+  --ink-muted: #475569;
+  --ink-light: #94a3b8;
+  --bg-page: #f8fafc;
+  --card-bg: #ffffff;
+  --border: #e2e8f0;
+  --border-focus: #93c5fd;
+
+  /* Status Colors */
+  --c-present: #10b981;
+  --c-present-bg: #ecfdf5;
+  --c-present-text: #065f46;
+  --c-absent: #ef4444;
+  --c-absent-bg: #fef2f2;
+  --c-absent-text: #991b1b;
+  --c-half: #f59e0b;
+  --c-half-bg: #fffbeb;
+  --c-half-text: #92400e;
+  --c-cl: #3b82f6;
+  --c-cl-bg: #eff6ff;
+  --c-cl-text: #1e40af;
+  --c-wo: #8b5cf6;
+  --c-wo-bg: #f5f3ff;
+  --c-wo-text: #5b21b6;
+  --c-hl: #ec4899;
+  --c-hl-bg: #fdf2f8;
+  --c-hl-text: #9d174d;
+
+  --sidebar-w: 260px;
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.12), 0 4px 6px -4px rgba(15, 23, 42, 0.07);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--ink);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+/* Layout Shell */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: var(--sidebar-w);
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  color: #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 20px 14px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+  z-index: 50;
+  transition: transform 0.25s ease;
+}
+
+.brand-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 16px;
+}
+
+.brand-badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: -0.5px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+}
+
+.brand-info h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.brand-info span {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.user-badge {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.user-details {
+  min-width: 0;
+  flex: 1;
+}
+
+.user-role {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-sub {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  color: #cbd5e1;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.nav-link.active {
+  background: var(--primary-light);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+}
+
+.nav-link .nav-icon {
+  font-size: 1.15rem;
+  width: 22px;
+  text-align: center;
+}
+
+.nav-badge-count {
+  margin-left: auto;
+  font-size: 0.72rem;
+  background: #ef4444;
+  color: #ffffff;
+  padding: 2px 7px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.sidebar-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  width: 100%;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+.logout-btn:hover {
+  background: rgba(239, 68, 68, 0.3);
+  color: #ffffff;
+}
+
+.pwa-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #0d9488, #059669);
+  color: #ffffff;
+  border: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.pwa-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.35);
+}
+
+/* MAIN CONTENT AREA */
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* TOPBAR */
+.topbar {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.topbar-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.topbar-title h1 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lang-switch {
+  display: flex;
+  background: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2px;
+}
+
+.lang-btn {
+  border: none;
+  background: transparent;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 16px;
+  cursor: pointer;
+  color: var(--ink-muted);
+  transition: all 0.15s;
+}
+
+.lang-btn.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 2px 6px rgba(30, 64, 175, 0.25);
+}
+
+.today-chip {
+  background: var(--primary-soft);
+  color: var(--primary);
+  border: 1px solid #bfdbfe;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* MAIN VIEW CONTAINER */
+.content-body {
+  padding: 24px 28px 60px;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* KPI STATS ROW */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.kpi-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.kpi-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.kpi-icon.blue { background: #dbeafe; color: #1d4ed8; }
+.kpi-icon.green { background: #d1fae5; color: #047857; }
+.kpi-icon.amber { background: #fef3c7; color: #b45309; }
+.kpi-icon.purple { background: #ede9fe; color: #6d28d9; }
+
+.kpi-content .kpi-val {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.kpi-content .kpi-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+
+/* CARDS & PANELS */
+.panel-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel-header h2 {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.panel-header p {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+
+.panel-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* BUTTONS */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+  text-decoration: none;
+}
+
+.btn:active { transform: scale(0.98); }
+.btn-primary { background: var(--primary); color: #ffffff; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-accent { background: var(--accent); color: #ffffff; }
+.btn-accent:hover { background: #0f766e; }
+.btn-success { background: var(--c-present); color: #ffffff; }
+.btn-success:hover { background: #059669; }
+.btn-outline { background: #ffffff; border-color: var(--border); color: var(--ink); }
+.btn-outline:hover { background: var(--bg-page); border-color: #cbd5e1; }
+.btn-danger { background: #fee2e2; color: #b91c1c; border-color: #fca5a5; }
+.btn-danger:hover { background: #ef4444; color: #ffffff; }
+.btn-sm { padding: 5px 10px; font-size: 0.8rem; }
+.btn-icon { padding: 6px 8px; border-radius: 6px; }
+
+/* FORMS */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-field label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.form-field input, .form-field select, .form-field textarea {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  color: var(--ink);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+  border-color: var(--primary-light);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* TABLES */
+.table-responsive {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+}
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  text-align: left;
+}
+
+table.data-table th {
+  background: #f1f5f9;
+  color: var(--ink-muted);
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+table.data-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink);
+  vertical-align: middle;
+}
+
+table.data-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+table.data-table td.num, table.data-table th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* STATUS BADGES & PILLS */
+.status-pill-group {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.status-btn {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  border: 1.5px solid var(--border);
+  background: #ffffff;
+  color: var(--ink-muted);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.12s;
+}
+
+.status-btn:hover {
+  transform: translateY(-1px);
+}
+
+.status-btn.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.status-btn.selected-P { background: var(--c-present); border-color: var(--c-present); color: #ffffff; }
+.status-btn.selected-A { background: var(--c-absent); border-color: var(--c-absent); color: #ffffff; }
+.status-btn.selected-H { background: var(--c-half); border-color: var(--c-half); color: #ffffff; }
+.status-btn.selected-CL { background: var(--c-cl); border-color: var(--c-cl); color: #ffffff; }
+.status-btn.selected-WO { background: var(--c-wo); border-color: var(--c-wo); color: #ffffff; }
+.status-btn.selected-HL { background: var(--c-hl); border-color: var(--c-hl); color: #ffffff; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge-P { background: var(--c-present-bg); color: var(--c-present-text); border: 1px solid #a7f3d0; }
+.badge-A { background: var(--c-absent-bg); color: var(--c-absent-text); border: 1px solid #fecaca; }
+.badge-H { background: var(--c-half-bg); color: var(--c-half-text); border: 1px solid #fde68a; }
+.badge-CL { background: var(--c-cl-bg); color: var(--c-cl-text); border: 1px solid #bfdbfe; }
+.badge-WO { background: var(--c-wo-bg); color: var(--c-wo-text); border: 1px solid #ddd6fe; }
+.badge-HL { background: var(--c-hl-bg); color: var(--c-hl-text); border: 1px solid #fbcfe8; }
+.badge-gray { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+
+/* MUSTER ROLL GRID */
+.muster-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.75rem;
+}
+
+.muster-table th, .muster-table td {
+  padding: 6px 3px;
+  text-align: center;
+  border: 1px solid var(--border);
+  min-width: 25px;
+}
+
+.muster-table th.emp-col, .muster-table td.emp-col {
+  text-align: left;
+  position: sticky;
+  left: 0;
+  background: #ffffff;
+  z-index: 10;
+  min-width: 150px;
+  padding-left: 10px;
+}
+
+.muster-table th.emp-col { background: #f8fafc; }
+
+.muster-table th.sun-col, .muster-table td.sun-col {
+  background-color: #fff1f2;
+}
+
+.muster-cell-btn {
+  width: 23px;
+  height: 23px;
+  border-radius: 4px;
+  border: none;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s;
+}
+
+.muster-cell-btn:hover { transform: scale(1.15); }
+.m-P { background: var(--c-present); color: #fff; }
+.m-A { background: var(--c-absent); color: #fff; }
+.m-H { background: var(--c-half); color: #fff; }
+.m-CL { background: var(--c-cl); color: #fff; }
+.m-WO { background: var(--c-wo); color: #fff; }
+.m-HL { background: var(--c-hl); color: #fff; }
+.m-NM { background: #e2e8f0; color: #64748b; }
+
+/* CLEAN PRESENTEE SHEET (PDF / PRINT ONLY) */
+.presentee-sheet-container {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.ps-header {
+  text-align: center;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #0f172a;
+  margin-bottom: 18px;
+}
+
+.ps-header h1 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: 0.5px;
+}
+
+.ps-header h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #334155;
+  margin-top: 2px;
+}
+
+.ps-meta-banner {
+  display: flex;
+  justify-content: space-between;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  padding: 8px 14px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.ps-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+.ps-table th, .ps-table td {
+  border: 1px solid #64748b;
+  padding: 8px 10px;
+}
+
+.ps-table th {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-weight: 800;
+  text-align: center;
+}
+
+.ps-table td.center { text-align: center; }
+.ps-table td.num { text-align: right; font-weight: 600; }
+.ps-table td.highlight { background: #f8fafc; font-weight: 800; text-align: right; color: #0f172a; }
+
+.ps-footer-signs {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+  padding-top: 10px;
+}
+
+.ps-sign-box {
+  width: 200px;
+  text-align: center;
+  border-top: 1.5px solid #334155;
+  padding-top: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* DATE LOCK SECURITY BADGE */
+.date-lock-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.date-lock-pill.locked {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+}
+
+.date-lock-pill.unlocked {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+/* TOAST NOTIFICATION */
+#toastContainer {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast-msg {
+  background: #1e293b;
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  font-size: 0.88rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-left: 4px solid var(--primary-light);
+  animation: slideIn 0.25s ease-out;
+}
+
+.toast-msg.success { border-left-color: var(--c-present); }
+.toast-msg.error { border-left-color: var(--c-absent); }
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* MODALS */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(2px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 1000;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-dialog {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  position: relative;
+}
+
+.modal-dialog.large { max-width: 860px; }
+
+.modal-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--ink-muted);
+}
+
+/* LOGIN SCREEN */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  position: relative;
+}
+
+.login-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 36px 32px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.login-top-lang {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+}
+
+.login-brand-head {
+  text-align: center;
+  margin-bottom: 24px;
+  margin-top: 10px;
+}
+
+.login-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1e40af, #0d9488);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin: 0 auto 12px;
+  box-shadow: 0 6px 18px rgba(30, 64, 175, 0.35);
+}
+
+.login-role-switch {
+  display: flex;
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 20px;
+}
+
+.login-role-tab {
+  flex: 1;
+  text-align: center;
+  padding: 9px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.login-role-tab.active {
+  background: #ffffff;
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* SALARY SLIP STYLES */
+.slip-container {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  max-width: 820px;
+  margin: 0 auto 30px;
+  box-shadow: var(--shadow);
+  color: #1e293b;
+}
+
+.slip-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 18px;
+  border-bottom: 2px solid #1e40af;
+  margin-bottom: 18px;
+}
+
+.slip-title h2 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #1e40af;
+}
+
+.slip-title p {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+
+.slip-badge-pill {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.slip-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 24px;
+  background: #f8fafc;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+}
+
+.slip-meta-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.slip-meta-label {
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+
+.slip-meta-value {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.slip-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.slip-sum-box {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+}
+
+.slip-sum-box b {
+  display: block;
+  font-size: 1.15rem;
+  color: #1e40af;
+}
+
+.slip-sum-box span {
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+
+.slip-breakdown-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.slip-table-box {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.slip-table-box h4 {
+  background: #f1f5f9;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  color: var(--ink);
+  font-weight: 700;
+  border-bottom: 1px solid var(--border);
+}
+
+.slip-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.slip-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.slip-table tr:last-child td { border-bottom: none; }
+.slip-table tr.total-row {
+  background: #f8fafc;
+  font-weight: 700;
+}
+
+.slip-net-banner {
+  background: linear-gradient(135deg, #1e40af, #0d9488);
+  color: #ffffff;
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.slip-net-banner .amount {
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.slip-words {
+  font-size: 0.84rem;
+  color: var(--ink-muted);
+  font-style: italic;
+  margin-bottom: 24px;
+}
+
+.slip-sign-row {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 40px;
+  margin-top: 20px;
+  border-top: 1px dashed var(--border);
+}
+
+.slip-sign-box {
+  text-align: center;
+  width: 180px;
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  border-top: 1px solid var(--ink);
+  padding-top: 6px;
+}
+
+/* PRINT MEDIA */
+@media print {
+  body { background: #ffffff !important; }
+  .sidebar, .topbar, .panel-toolbar, .slip-actions-bar, .no-print { display: none !important; }
+  .app-container, .main-wrapper, .content-body { padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
+  .slip-container, .presentee-sheet-container {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 960px) {
+  .sidebar { position: fixed; transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .mobile-toggle { display: block; }
+  .slip-meta-grid { grid-template-columns: 1fr; }
+  .slip-breakdown-grid { grid-template-columns: 1fr; }
+  .slip-summary-cards { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div id="appRoot"></div>
+
+<!-- Toast Container -->
+<div id="toastContainer"></div>
+
+<!-- Modal Container -->
+<div id="globalModal" class="modal-overlay" onclick="closeModalOnOutside(event)">
+  <div class="modal-dialog" id="modalDialog">
+    <button class="modal-close-btn" onclick="closeModal()">&times;</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   VEDANT ENTERPRISES ATTENDANCE & PAYROLL ENGINE (20th TO 19th CYCLE)
+   ============================================================ */
+
+const APP_STORAGE_KEY = 'vedant_attendance_data_v3';
+const APP_REMEMBER_KEY = 'vedant_remembered_session_v3';
+
+const MONTHS_MR = ['जानेवारी','फेब्रुवारी','मार्च','एप्रिल','मे','जून','जुलै','ऑगस्ट','सप्टेंबर','ऑक्टोबर','नोव्हेंबर','डिसेंबर'];
+const MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+// Standard Designations
+const POSTS_LIST = [
+  'Branch Manager',
+  'Accountant',
+  'Parts Manager',
+  'Parts Executive',
+  'Sales Executive',
+  'Deputy Warranty Manager',
+  'Technical Advisor',
+  'Service Advisor (SA)',
+  'Mechanic',
+  'SAP Operator',
+  'Back Office Executive',
+  'Helper',
+  'Works Manager',
+  'Customer Relationship Executive (CRE)',
+  'Auto Electrician',
+  'HouseKeeping'
+];
+
+const MASTER_ADMIN_DEFAULT_PASS = 'admin123';
+
+/* ---------------- 20th TO 19th CYCLE UTILITIES ---------------- */
+function getDatesInCycle(startDateStr, endDateStr) {
+  const dates = [];
+  let cur = new Date(startDateStr + 'T00:00:00');
+  const end = new Date(endDateStr + 'T00:00:00');
+  while (cur <= end) {
+    const y = cur.getFullYear();
+    const m = String(cur.getMonth() + 1).padStart(2, '0');
+    const d = String(cur.getDate()).padStart(2, '0');
+    dates.push(`${y}-${m}-${d}`);
+    cur.setDate(cur.getDate() + 1);
+  }
+  return dates;
+}
+
+// Generate 20th-to-19th cycles (e.g. 20 Aug to 19 Sep, 20 Sep to 19 Oct)
+function getAvailableCycles() {
+  const list = [];
+  const now = new Date();
+  const baseYear = now.getFullYear();
+
+  for (let offset = -4; offset <= 4; offset++) {
+    const sDate = new Date(baseYear, now.getMonth() + offset, 20);
+    const eDate = new Date(baseYear, now.getMonth() + offset + 1, 19);
+
+    const sY = sDate.getFullYear();
+    const sM = String(sDate.getMonth() + 1).padStart(2, '0');
+    const eY = eDate.getFullYear();
+    const eM = String(eDate.getMonth() + 1).padStart(2, '0');
+
+    const startStr = `${sY}-${sM}-20`;
+    const endStr = `${eY}-${eM}-19`;
+
+    const labelMr = `20 ${MONTHS_MR[sDate.getMonth()]} ते 19 ${MONTHS_MR[eDate.getMonth()]} ${eY}`;
+    const labelEn = `20 ${MONTHS_EN[sDate.getMonth()]} to 19 ${MONTHS_EN[eDate.getMonth()]} ${eY}`;
+
+    list.push({
+      id: `${startStr}|${endStr}`,
+      start: startStr,
+      end: endStr,
+      label: currentLang === 'mr' ? labelMr : labelEn
+    });
+  }
+  return list;
+}
+
+function getDefaultCycleId() {
+  const now = new Date();
+  const day = now.getDate();
+  const m = now.getMonth();
+  const y = now.getFullYear();
+
+  let sDate, eDate;
+  if (day >= 20) {
+    sDate = new Date(y, m, 20);
+    eDate = new Date(y, m + 1, 19);
+  } else {
+    sDate = new Date(y, m - 1, 20);
+    eDate = new Date(y, m, 19);
+  }
+
+  const sY = sDate.getFullYear();
+  const sM = String(sDate.getMonth() + 1).padStart(2, '0');
+  const eY = eDate.getFullYear();
+  const eM = String(eDate.getMonth() + 1).padStart(2, '0');
+
+  return `${sY}-${sM}-20|${eY}-${eM}-19`;
+}
+
+function parseCycleId(cycleId) {
+  if (!cycleId || !cycleId.includes('|')) cycleId = getDefaultCycleId();
+  const [start, end] = cycleId.split('|');
+  const [sY, sM] = start.split('-').map(Number);
+  const [eY, eM] = end.split('-').map(Number);
+  const labelMr = `20 ${MONTHS_MR[sM - 1]} ते 19 ${MONTHS_MR[eM - 1]} ${eY}`;
+  const labelEn = `20 ${MONTHS_EN[sM - 1]} to 19 ${MONTHS_EN[eM - 1]} ${eY}`;
+
+  return {
+    id: cycleId,
+    start,
+    end,
+    label: currentLang === 'mr' ? labelMr : labelEn,
+    dates: getDatesInCycle(start, end)
+  };
+}
+
+// Default Data Factory (Dharashiv changed to Umarga, employees empty by default)
+function createDefaultData() {
+  const defaultBranches = [
+    { id: 'b1', name: 'शाखा १ (लातूर)', district: 'लातूर (Latur)', password: 'branch1' },
+    { id: 'b2', name: 'शाखा २ (नांदेड)', district: 'नांदेड (Nanded)', password: 'branch2' },
+    { id: 'b3', name: 'शाखा ३ (उमरगा)', district: 'उमरगा (Umarga)', password: 'branch3' },
+    { id: 'b4', name: 'शाखा ४ (बीड)', district: 'बीड (Beed)', password: 'branch4' },
+    { id: 'b5', name: 'शाखा ५ (सोलापूर)', district: 'सोलापूर (Solapur)', password: 'branch5' }
+  ];
+
+  return {
+    version: 4,
+    mainAdminPassword: MASTER_ADMIN_DEFAULT_PASS,
+    branches: defaultBranches,
+    employees: [], // empty as requested
+    attendance: {},
+    advances: [],
+    dateChangeApprovals: {},
+    dateChangeRequests: [],
+    settings: {
+      clAllowedPerMonth: 1,
+      workingDaysMode: 'calendar',
+      paidWeeklyOff: true,
+      paidHolidays: true,
+      ptEnabled: true,
+      esicRatePercent: 0
+    }
+  };
+}
+
+// Global App State
+let DATA = null;
+let session = null;
+let currentLang = 'mr';
+
+let uiState = {
+  currentTab: 'daily',
+  selectedDate: todayStr(),
+  selectedCycleId: getDefaultCycleId(),
+  filterPost: '',
+  searchQuery: '',
+  viewSlipEmpId: null,
+  mobileSidebarOpen: false,
+  sessionDateUnlocked: false,
+  mainViewingBranchId: null, // When main admin clicks a branch to view its reports
+  mainIndivEmpId: null       // When main admin views an individual employee report
+};
+
+function todayStr() {
+  const d = new Date();
+  return d.toISOString().slice(0, 10);
+}
+
+function getDayOfWeek(dateStr) {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  return new Date(y, m - 1, d).getDay();
+}
+
+function attnKey(empId, date) {
+  return `${empId}|${date}`;
+}
+
+function uid() {
+  return 'id_' + Math.random().toString(36).substr(2, 9);
+}
+
+function esc(str) {
+  return String(str == null ? '' : str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function formatCurrency(val) {
+  return '₹' + Number(val || 0).toLocaleString('en-IN');
+}
+
+function numberToWordsMarathi(num) {
+  num = Math.round(Number(num) || 0);
+  if (num === 0) return 'रुपये शून्य फक्त';
+  return `रुपये ${num.toLocaleString('en-IN')} फक्त`;
+}
+
+function numberToWordsEnglish(num) {
+  num = Math.round(Number(num) || 0);
+  if (num === 0) return 'Rupees Zero Only';
+  return `Rupees ${num.toLocaleString('en-IN')} Only`;
+}
+
+/* ---------------- LOCAL PERSISTENCE ---------------- */
+function loadLocalData() {
+  try {
+    const raw = localStorage.getItem(APP_STORAGE_KEY);
+    if (raw) {
+      DATA = JSON.parse(raw);
+    }
+  } catch (e) {}
+
+  if (!DATA || !DATA.branches || DATA.branches.length === 0) {
+    DATA = createDefaultData();
+    saveDataLocal();
+  }
+
+  // Automatic Migration: rename any Dharashiv to Umarga
+  if (DATA && DATA.branches) {
+    DATA.branches.forEach(b => {
+      if (b.name && (b.name.includes('धाराशिव') || b.name.includes('Dharashiv'))) {
+        b.name = 'शाखा ३ (उमरगा)';
+        b.district = 'उमरगा (Umarga)';
+      }
+      if (b.district && (b.district.includes('धाराशिव') || b.district.includes('Dharashiv'))) {
+        b.district = 'उमरगा (Umarga)';
+      }
+    });
+  }
+
+  if (!DATA.dateChangeApprovals) DATA.dateChangeApprovals = {};
+  if (!DATA.dateChangeRequests) DATA.dateChangeRequests = [];
+  if (!DATA.employees) DATA.employees = [];
+  if (!DATA.advances) DATA.advances = [];
+  if (!DATA.attendance) DATA.attendance = {};
+}
+
+function saveDataLocal() {
+  try {
+    localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(DATA));
+  } catch (e) {}
+}
+
+async function persist() {
+  saveDataLocal();
+}
+
+/* ---------------- DATE APPROVAL GATE ---------------- */
+function isDateAllowedForMarking(branchId, dateStr) {
+  if (session && session.role === 'main') return true;
+  if (dateStr === todayStr()) return true;
+  if (uiState.sessionDateUnlocked) return true;
+
+  const key = `${branchId}|${dateStr}`;
+  if (DATA.dateChangeApprovals && DATA.dateChangeApprovals[key] && DATA.dateChangeApprovals[key].status === 'approved') {
+    return true;
+  }
+  return false;
+}
+
+/* ---------------- ADVANCE & PT CALCULATIONS ---------------- */
+function calculateMaharashtraPT(salary, ym, isExempt) {
+  if (isExempt) return 0;
+  const sal = Number(salary) || 0;
+  if (sal <= 7500) return 0;
+  if (sal <= 10000) return 175;
+  const month = Number(ym.split('-')[1]);
+  return month === 2 ? 300 : 200;
+}
+
+function deductionForCycle(adv, cycle) {
+  const monthly = Number(adv.monthlyDeduction) || Number(adv.amount);
+  if (adv.date > cycle.end) return 0;
+  const advMonthIdx = (new Date(adv.date).getFullYear() * 12) + new Date(adv.date).getMonth();
+  const cycleMonthIdx = (new Date(cycle.start).getFullYear() * 12) + new Date(cycle.start).getMonth();
+  const elapsed = cycleMonthIdx - advMonthIdx;
+  if (elapsed < 0) return 0;
+  const deductedBefore = elapsed * monthly;
+  const remainingBefore = Number(adv.amount) - deductedBefore;
+  if (remainingBefore <= 0) return 0;
+  return Math.min(monthly, remainingBefore);
+}
+
+function advanceRemainingForCycle(adv, cycle) {
+  const monthly = Number(adv.monthlyDeduction) || Number(adv.amount);
+  const advMonthIdx = (new Date(adv.date).getFullYear() * 12) + new Date(adv.date).getMonth();
+  const cycleMonthIdx = (new Date(cycle.start).getFullYear() * 12) + new Date(cycle.start).getMonth();
+  const elapsed = cycleMonthIdx - advMonthIdx + 1;
+  if (elapsed <= 0) return Number(adv.amount);
+  const deducted = Math.min(Number(adv.amount), elapsed * monthly);
+  return Math.max(0, Number(adv.amount) - deducted);
+}
+
+/* ---------------- 20th-TO-19th SALARY STATS ---------------- */
+function getEmpCycleStats(emp, cycle) {
+  const dates = cycle.dates;
+  const totalDaysInCycle = dates.length;
+
+  let P = 0, A = 0, H = 0, CL = 0, WO = 0, HL = 0, NM = 0;
+
+  dates.forEach(dStr => {
+    const st = DATA.attendance[attnKey(emp.id, dStr)];
+    if (st === 'P') P++;
+    else if (st === 'A') A++;
+    else if (st === 'H') H++;
+    else if (st === 'CL') CL++;
+    else if (st === 'WO') WO++;
+    else if (st === 'HL') HL++;
+    else NM++;
+  });
+
+  const clAllowed = DATA.settings.clAllowedPerMonth ?? 1;
+  const paidCL = Math.min(CL, clAllowed);
+  const unpaidCL = CL - paidCL;
+
+  const paidWO = DATA.settings.paidWeeklyOff ? WO : 0;
+  const paidHL = DATA.settings.paidHolidays ? HL : 0;
+
+  const payableDays = P + (H * 0.5) + paidCL + paidWO + paidHL;
+
+  const perDaySalary = (Number(emp.salary) || 0) / totalDaysInCycle;
+  const earnedBasic = Math.round(perDaySalary * payableDays);
+
+  const hra = Number(emp.hra) || 0;
+  const otherAllowance = Number(emp.otherAllowance) || 0;
+  const grossSalary = earnedBasic + hra + otherAllowance;
+
+  const empAdvs = DATA.advances.filter(a => a.empId === emp.id);
+  const advanceDeduction = empAdvs.reduce((s, a) => s + deductionForCycle(a, cycle), 0);
+
+  let pfDeduction = 0;
+  const pfPercent = Number(emp.pfPercent) || 0;
+  const pfManual = Number(emp.pfManualAmount) || 0;
+  if (pfPercent > 0 && earnedBasic > 0) {
+    pfDeduction = Math.round(earnedBasic * (pfPercent / 100));
+  } else if (pfManual > 0 && earnedBasic > 0) {
+    pfDeduction = Math.round(pfManual);
+  }
+
+  let ptDeduction = 0;
+  if (DATA.settings.ptEnabled && earnedBasic > 0) {
+    ptDeduction = calculateMaharashtraPT(emp.salary, cycle.end.slice(0, 7), emp.ptExempt);
+  }
+
+  const totalDeductions = advanceDeduction + pfDeduction + ptDeduction;
+  const netPayable = Math.max(0, grossSalary - totalDeductions);
+  const attPercent = totalDaysInCycle > 0 ? Math.round((payableDays / totalDaysInCycle) * 100) : 0;
+
+  return {
+    totalDaysInCycle,
+    P, A, H, CL, WO, HL, NM,
+    paidCL, unpaidCL,
+    paidWO, paidHL,
+    payableDays,
+    perDaySalary,
+    earnedBasic,
+    hra,
+    otherAllowance,
+    grossSalary,
+    advanceDeduction,
+    pfDeduction,
+    ptDeduction,
+    totalDeductions,
+    netPayable,
+    attPercent
+  };
+}
+
+/* ---------------- TOASTS & MODALS ---------------- */
+function showToast(msg, type = 'success') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast-msg ${type}`;
+  toast.innerHTML = `<span>${type === 'success' ? '✅' : '⚠️'}</span> <div>${esc(msg)}</div>`;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(100%)';
+    toast.style.transition = 'all 0.3s ease';
+    setTimeout(() => toast.remove(), 300);
+  }, 3200);
+}
+
+function openModal(html, isLarge = false) {
+  const modal = document.getElementById('globalModal');
+  const dialog = document.getElementById('modalDialog');
+  const content = document.getElementById('modalContent');
+  if (isLarge) dialog.classList.add('large');
+  else dialog.classList.remove('large');
+  content.innerHTML = html;
+  modal.classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('globalModal').classList.remove('active');
+}
+
+function closeModalOnOutside(e) {
+  if (e.target.id === 'globalModal') closeModal();
+}
+
+/* ---------------- ROOT APP RENDER ---------------- */
+function renderApp() {
+  const root = document.getElementById('appRoot');
+  if (!session) {
+    root.innerHTML = renderLoginView();
+    attachLoginEvents();
+    return;
+  }
+
+  root.innerHTML = `
+    <div class="app-container">
+      ${renderSidebar()}
+      <div class="main-wrapper">
+        ${renderTopbar()}
+        <div class="content-body" id="mainContentBody">
+          ${renderActiveView()}
+        </div>
+      </div>
+    </div>
+  `;
+  checkPwaInstallable();
+}
+
+/* ---------------- LOGIN VIEW (DEDICATED BRANCH LOGIN, NO PASSWORD HINTS, REMEMBER ME, LANG SWITCH & PWA) ---------------- */
+function renderLoginView() {
+  const branchOptions = DATA.branches.map(b => `
+    <option value="${b.id}">${esc(b.name)} — ${esc(b.district)}</option>
+  `).join('');
+
+  const isMr = (currentLang === 'mr');
+
+  return `
+    <div class="login-page">
+      <div class="login-card">
+        <!-- Language Switcher on Login Page -->
+        <div class="login-top-lang">
+          <div class="lang-switch">
+            <button class="lang-btn ${isMr ? 'active' : ''}" onclick="switchLang('mr')">मराठी</button>
+            <button class="lang-btn ${!isMr ? 'active' : ''}" onclick="switchLang('en')">English</button>
+          </div>
+        </div>
+
+        <div class="login-brand-head">
+          <div class="login-logo">VE</div>
+          <h2 style="font-weight:800;color:var(--ink);">${isMr ? 'वेदांत एंटरप्रायझेस' : 'Vedant Enterprises'}</h2>
+          <p style="font-size:0.85rem;color:var(--ink-muted);">
+            ${isMr ? 'शाखा हजेरी व वेतन पोर्टल (२० ते १९ कालावधी)' : 'Branch Attendance & Payroll Portal (20th to 19th Cycle)'}
+          </p>
+        </div>
+
+        <form id="branchLoginForm" onsubmit="handleBranchLogin(event)">
+          <div class="form-field" style="margin-bottom:14px;">
+            <label>${isMr ? 'शाखा निवडा' : 'Select Branch'}</label>
+            <select id="loginBranchSelect">${branchOptions}</select>
+          </div>
+          <div class="form-field" style="margin-bottom:12px;">
+            <label>${isMr ? 'शाखा पासवर्ड' : 'Branch Password'}</label>
+            <input type="password" id="loginPass" placeholder="${isMr ? 'पासवर्ड प्रविष्ट करा' : 'Enter Password'}" autocomplete="current-password" required>
+          </div>
+
+          <div style="margin-bottom:16px;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.85rem;color:var(--ink);user-select:none;">
+              <input type="checkbox" id="rememberMeCheck" checked style="width:16px;height:16px;">
+              <span><b>${isMr ? 'लॉगिन लक्षात ठेवा (Remember Me)' : 'Remember Me'}</b></span>
+            </label>
+          </div>
+
+          <div id="loginError" style="color:var(--c-absent);font-size:0.85rem;font-weight:600;margin-bottom:12px;min-height:1.2em;"></div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%;padding:12px;font-size:1rem;" id="loginSubmitBtn">
+            ${isMr ? 'शाखा लॉगिन करा (Sign In)' : 'Sign In'}
+          </button>
+        </form>
+
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);align-items:center;">
+          <button id="pwaLoginInstallBtn" class="pwa-btn" style="display:none;width:100%;padding:10px;" onclick="triggerPwaInstall()">
+            📲 <span>${isMr ? 'हे ऍप इन्स्टॉल करा (Install App)' : 'Install This App'}</span>
+          </button>
+
+          <a href="admin.html" class="btn btn-outline" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-size:0.85rem;padding:8px 16px;border-radius:20px;">
+            🛡️ ${isMr ? 'मुख्य ऍडमिन पोर्टल उघडा (Central Admin)' : 'Central Admin Portal'} &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function attachLoginEvents() {
+  checkPwaInstallable();
+}
+
+function handleBranchLogin(e) {
+  if (e) e.preventDefault();
+  const passInp = document.getElementById('loginPass');
+  const err = document.getElementById('loginError');
+  const rem = document.getElementById('rememberMeCheck');
+  const p = passInp ? passInp.value.trim() : '';
+
+  const bId = document.getElementById('loginBranchSelect').value;
+  const branch = DATA.branches.find(b => b.id === bId);
+  const masterPass = DATA.mainAdminPassword || MASTER_ADMIN_DEFAULT_PASS;
+
+  if (branch && (p === branch.password || p === masterPass)) {
+    session = { role: 'branch', branchId: bId };
+    uiState.currentTab = 'daily';
+    uiState.sessionDateUnlocked = false;
+    handleSaveRememberSession(rem && rem.checked);
+    renderApp();
+  } else {
+    if (err) {
+      err.textContent = currentLang === 'mr' ? 'चुकीचा शाखा पासवर्ड!' : 'Invalid Branch Password!';
+    }
+  }
+}
+
+function handleSaveRememberSession(shouldRemember) {
+  if (shouldRemember && session) {
+    localStorage.setItem(APP_REMEMBER_KEY, JSON.stringify(session));
+  } else {
+    localStorage.removeItem(APP_REMEMBER_KEY);
+  }
+}
+
+function loadRememberedSession() {
+  try {
+    const raw = localStorage.getItem(APP_REMEMBER_KEY);
+    if (raw) {
+      const s = JSON.parse(raw);
+      if (s.role === 'main') {
+        window.location.href = 'admin.html';
+        return;
+      }
+      session = s;
+    }
+  } catch(e) {}
+}
+
+function logout() {
+  session = null;
+  localStorage.removeItem(APP_REMEMBER_KEY);
+  renderApp();
+}
+
+/* ---------------- SIDEBAR ---------------- */
+function renderSidebar() {
+  let roleTitle = '', roleSub = '', avatarChar = 'V';
+  const isMr = (currentLang === 'mr');
+  const pendingRequestsCount = (DATA.dateChangeRequests || []).filter(r => r.status === 'pending').length;
+
+  if (session.role === 'main') {
+    roleTitle = isMr ? 'मुख्य ऍडमिन' : 'Main Admin';
+    roleSub = isMr ? 'सर्व शाखा व्यवस्थापन' : 'Central Management';
+    avatarChar = 'M';
+  } else {
+    const b = DATA.branches.find(x => x.id === session.branchId);
+    roleTitle = b ? b.name : (isMr ? 'शाखा ऍडमिन' : 'Branch Admin');
+    roleSub = b ? b.district : '';
+    avatarChar = (b && b.name) ? b.name.charAt(0) : 'B';
+  }
+
+  return `
+    <aside class="sidebar ${uiState.mobileSidebarOpen ? 'open' : ''}" id="appSidebar">
+      <div class="brand-header">
+        <div class="brand-badge">VE</div>
+        <div class="brand-info">
+          <h2>${isMr ? 'वेदांत एंटरप्रायझेस' : 'Vedant Enterprises'}</h2>
+          <span>${isMr ? 'हजेरी व वेतन (२० ते १९)' : 'Attendance & Payroll (20-19)'}</span>
+        </div>
+      </div>
+
+      <div class="user-badge">
+        <div class="user-avatar">${avatarChar}</div>
+        <div class="user-details">
+          <div class="user-role">${esc(roleTitle)}</div>
+          <div class="user-sub">${esc(roleSub)}</div>
+        </div>
+      </div>
+
+      <nav class="nav-group">
+        ${session.role === 'branch' ? `
+          <button class="nav-link ${uiState.currentTab === 'daily' ? 'active' : ''}" onclick="switchTab('daily')">
+            <span class="nav-icon">📋</span> ${isMr ? 'दैनिक हजेरी' : 'Daily Attendance'}
+          </button>
+          <button class="nav-link ${uiState.currentTab === 'muster' ? 'active' : ''}" onclick="switchTab('muster')">
+            <span class="nav-icon">📅</span> ${isMr ? 'मस्टर रोल (२० ते १९)' : 'Muster Roll (20th-19th)'}
+          </button>
+          <button class="nav-link ${uiState.currentTab === 'presenteePdf' ? 'active' : ''}" onclick="switchTab('presenteePdf')">
+            <span class="nav-icon">📄</span> ${isMr ? 'उपस्थिती पत्रक (PDF)' : 'Presentee Sheet (PDF)'}
+          </button>
+          <button class="nav-link ${uiState.currentTab === 'employees' ? 'active' : ''}" onclick="switchTab('employees')">
+            <span class="nav-icon">👥</span> ${isMr ? 'कर्मचारी व्यवस्थापन' : 'Staff Directory'}
+          </button>
+          <button class="nav-link ${uiState.currentTab === 'payroll' ? 'active' : ''}" onclick="switchTab('payroll')">
+            <span class="nav-icon">📊</span> ${isMr ? 'मासिक वेतन अहवाल' : 'Payroll Report'}
+          </button>
+          <button class="nav-link ${uiState.currentTab === 'slips' ? 'active' : ''}" onclick="switchTab('slips')">
+            <span class="nav-icon">🧾</span> ${isMr ? 'पगार स्लिप' : 'Salary Slip'}
+          </button>
+          <button class="nav-link ${uiState.currentTab === 'advances' ? 'active' : ''}" onclick="switchTab('advances')">
+            <span class="nav-icon">💰</span> ${isMr ? 'ॲडव्हान्स लेजर' : 'Advance Ledger'}
+          </button>
+        ` : `
+          <button class="nav-link ${uiState.currentTab === 'overview' ? 'active' : ''}" onclick="switchTab('overview')">
+            <span class="nav-icon">🏠</span> ${isMr ? 'सर्व शाखा विहंगावलोकन' : 'All Branches Overview'}
+          </button>
+          <button class="nav-link ${uiState.currentTab === 'approvals' ? 'active' : ''}" onclick="switchTab('approvals')">
+            <span class="nav-icon">🔐</span> ${isMr ? 'तारीख बदल मंजुरी' : 'Date Change Approvals'}
+            ${pendingRequestsCount > 0 ? `<span class="nav-badge-count">${pendingRequestsCount}</span>` : ''}
+          </button>
+          <button class="nav-link ${uiState.currentTab === 'consolidated' ? 'active' : ''}" onclick="switchTab('consolidated')">
+            <span class="nav-icon">📊</span> ${isMr ? 'एकत्रित वेतन अहवाल' : 'Consolidated Payroll'}
+          </button>
+          <button class="nav-link ${uiState.currentTab === 'allAdvances' ? 'active' : ''}" onclick="switchTab('allAdvances')">
+            <span class="nav-icon">💰</span> ${isMr ? 'सर्व ॲडव्हान्स लेजर' : 'All Advances Ledger'}
+          </button>
+          <button class="nav-link ${uiState.currentTab === 'branches' ? 'active' : ''}" onclick="switchTab('branches')">
+            <span class="nav-icon">🏢</span> ${isMr ? 'शाखा व्यवस्थापन' : 'Branch Management'}
+          </button>
+          <button class="nav-link ${uiState.currentTab === 'settings' ? 'active' : ''}" onclick="switchTab('settings')">
+            <span class="nav-icon">⚙️</span> ${isMr ? 'प्रणाली सेटिंग्ज' : 'System Settings'}
+          </button>
+        `}
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="pwa-btn" id="pwaInstallBtn" style="display:none;" onclick="triggerPwaInstall()">
+          📲 <span>${isMr ? 'ऍप इन्स्टॉल करा' : 'Install App'}</span>
+        </button>
+        <button class="logout-btn" onclick="logout()">
+          <span>↩</span> ${isMr ? 'लॉगआऊट' : 'Sign Out'}
+        </button>
+      </div>
+    </aside>
+  `;
+}
+
+function switchTab(tabName) {
+  uiState.currentTab = tabName;
+  uiState.mobileSidebarOpen = false;
+  if (tabName === 'overview') {
+    uiState.mainViewingBranchId = null;
+    uiState.mainIndivEmpId = null;
+  }
+  renderApp();
+}
+
+function toggleMobileSidebar() {
+  uiState.mobileSidebarOpen = !uiState.mobileSidebarOpen;
+  renderApp();
+}
+
+/* ---------------- TOPBAR WITH DUAL BILINGUAL SWITCHER ---------------- */
+function renderTopbar() {
+  const isMr = (currentLang === 'mr');
+  let title = '';
+
+  if (session.role === 'main') {
+    title = isMr ? 'मुख्य ऍडमिन डॅशबोर्ड' : 'Central Admin Dashboard';
+  } else {
+    const b = DATA.branches.find(x => x.id === session.branchId);
+    title = b ? `${b.name} (${b.district})` : 'Branch Dashboard';
+  }
+
+  const cycle = parseCycleId(uiState.selectedCycleId);
+
+  return `
+    <header class="topbar">
+      <div class="topbar-title">
+        <button class="mobile-toggle" onclick="toggleMobileSidebar()">☰</button>
+        <div>
+          <h1>${esc(title)}</h1>
+          <div style="font-size:0.75rem;color:var(--primary);font-weight:700;">
+            🗓️ ${isMr ? 'वेतन चक्र' : 'Salary Cycle'}: ${esc(cycle.label)} (${isMr ? '२० ते १९ कालावधी' : '20th to 19th Period'})
+          </div>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <!-- Language Switcher Button -->
+        <div class="lang-switch">
+          <button class="lang-btn ${isMr ? 'active' : ''}" onclick="switchLang('mr')">मराठी</button>
+          <button class="lang-btn ${!isMr ? 'active' : ''}" onclick="switchLang('en')">English</button>
+        </div>
+
+        <div class="today-chip">
+          <span>📅</span> ${isMr ? 'आज' : 'Today'}: ${todayStr()}
+        </div>
+      </div>
+    </header>
+  `;
+}
+
+function switchLang(l) {
+  currentLang = l;
+  renderApp();
+}
+
+/* ---------------- ACTIVE VIEW ROUTER ---------------- */
+function renderActiveView() {
+  const cycle = parseCycleId(uiState.selectedCycleId);
+
+  if (session.role === 'branch') {
+    const branch = DATA.branches.find(b => b.id === session.branchId);
+    const emps = DATA.employees.filter(e => e.branchId === branch.id);
+
+    return `
+      ${renderBranchKpis(branch, emps, cycle)}
+      ${uiState.currentTab === 'daily' ? renderDailyAttendanceView(branch, emps) : ''}
+      ${uiState.currentTab === 'muster' ? renderMusterRollView(branch, emps, cycle) : ''}
+      ${uiState.currentTab === 'presenteePdf' ? renderCleanPresenteePdfView(branch, emps, cycle) : ''}
+      ${uiState.currentTab === 'employees' ? renderEmployeesView(branch, emps) : ''}
+      ${uiState.currentTab === 'payroll' ? renderPayrollReportView(branch, emps, cycle) : ''}
+      ${uiState.currentTab === 'slips' ? renderSlipsView(branch, emps, cycle) : ''}
+      ${uiState.currentTab === 'advances' ? renderAdvancesView(branch, emps, cycle) : ''}
+    `;
+  } else {
+    // Main Admin View: If viewing a branch's reports, render branch report view
+    if (uiState.mainViewingBranchId) {
+      return renderAdminBranchReportView(uiState.mainViewingBranchId, cycle);
+    }
+
+    return `
+      ${renderMainKpis(cycle)}
+      ${uiState.currentTab === 'overview' ? renderMainOverviewView() : ''}
+      ${uiState.currentTab === 'approvals' ? renderMainApprovalsView() : ''}
+      ${uiState.currentTab === 'consolidated' ? renderMainConsolidatedPayroll(cycle) : ''}
+      ${uiState.currentTab === 'allAdvances' ? renderMainAllAdvances(cycle) : ''}
+      ${uiState.currentTab === 'branches' ? renderMainBranchManagement() : ''}
+      ${uiState.currentTab === 'settings' ? renderMainSettingsView() : ''}
+    `;
+  }
+}
+
+/* ============================================================
+   BRANCH VIEWS
+   ============================================================ */
+
+function renderBranchKpis(branch, emps, cycle) {
+  const today = todayStr();
+  const isMr = (currentLang === 'mr');
+  let todayMarked = 0, totalAdvCycle = 0, totalNetCycle = 0;
+
+  emps.forEach(e => {
+    if (DATA.attendance[attnKey(e.id, today)]) todayMarked++;
+    const stats = getEmpCycleStats(e, cycle);
+    totalAdvCycle += stats.advanceDeduction;
+    totalNetCycle += stats.netPayable;
+  });
+
+  return `
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-icon blue">👥</div>
+        <div class="kpi-content">
+          <div class="kpi-val">${emps.length}</div>
+          <div class="kpi-label">${isMr ? 'शाखा कर्मचारी' : 'Branch Staff'}</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon green">✅</div>
+        <div class="kpi-content">
+          <div class="kpi-val">${todayMarked} / ${emps.length}</div>
+          <div class="kpi-label">${isMr ? 'आजची हजेरी नोंद' : 'Today Marked'}</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon amber">💰</div>
+        <div class="kpi-content">
+          <div class="kpi-val">${formatCurrency(totalAdvCycle)}</div>
+          <div class="kpi-label">${isMr ? 'ॲडव्हान्स कपात' : 'Advance EMI'}</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon purple">🏦</div>
+        <div class="kpi-content">
+          <div class="kpi-val">${formatCurrency(totalNetCycle)}</div>
+          <div class="kpi-label">${isMr ? 'एकूण निव्वळ वेतन (२०-१९)' : 'Total Net Payroll'}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* 1. DAILY ATTENDANCE (ADMIN APPROVAL REQUIRED FOR DATE CHANGE) */
+function renderDailyAttendanceView(branch, emps) {
+  const isMr = (currentLang === 'mr');
+  if (emps.length === 0) {
+    return `
+      <div class="panel-card">
+        <div style="text-align:center;padding:40px 20px;">
+          <p style="color:var(--ink-muted);font-size:1.1rem;margin-bottom:16px;">
+            ${isMr ? 'या शाखेत अजून कर्मचारी नोंदवलेले नाहीत.' : 'No employees added in this branch yet.'}
+          </p>
+          <button class="btn btn-primary" onclick="switchTab('employees')">
+            ➕ ${isMr ? 'कर्मचारी जोडा' : 'Add Staff'}
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  const curDate = uiState.selectedDate;
+  const isAllowed = isDateAllowedForMarking(branch.id, curDate);
+  const isToday = (curDate === todayStr());
+  const isSunday = (getDayOfWeek(curDate) === 0);
+
+  const filtered = emps.filter(e => {
+    const mPost = !uiState.filterPost || e.post === uiState.filterPost;
+    const mSearch = !uiState.searchQuery || e.name.toLowerCase().includes(uiState.searchQuery.toLowerCase());
+    return mPost && mSearch;
+  });
+
+  const statuses = [
+    { code: 'P', label: isMr ? 'हजर' : 'Present' },
+    { code: 'A', label: isMr ? 'गैरहजर' : 'Absent' },
+    { code: 'H', label: isMr ? 'हाफ डे' : 'Half Day' },
+    { code: 'CL', label: isMr ? 'सी.एल.' : 'CL' },
+    { code: 'WO', label: isMr ? 'साप्ताहिक सुट्टी' : 'Weekly Off' },
+    { code: 'HL', label: isMr ? 'सण/सुट्टी' : 'Holiday' }
+  ];
+
+  const rows = filtered.map(e => {
+    const currentStatus = DATA.attendance[attnKey(e.id, curDate)] || '';
+
+    const pills = statuses.map(s => {
+      const isSel = (currentStatus === s.code);
+      return `
+        <button class="status-btn ${isSel ? 'selected-' + s.code : ''} ${!isAllowed ? 'disabled' : ''}"
+          onclick="handleStatusClick('${e.id}', '${curDate}', '${s.code}', ${isAllowed})">
+          ${s.label}
+        </button>
+      `;
+    }).join('');
+
+    return `
+      <tr>
+        <td style="font-weight:600;">${esc(e.name)}</td>
+        <td><span class="badge badge-gray">${esc(e.post || 'Staff')}</span></td>
+        <td>
+          <div class="status-pill-group">
+            ${pills}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  return `
+    <div class="panel-card">
+      <div class="panel-header">
+        <div>
+          <h2>${isMr ? 'दैनिक हजेरी नोंद' : 'Daily Attendance Entry'}</h2>
+          <p>
+            ${isMr ? 'आजच्या तारखेसाठी हजेरी खुली आहे. मागील तारखेची हजेरी बदलण्यासाठी <b>मुख्य ऍडमिनची मंजुरी आवश्यक आहे</b>.'
+              : 'Attendance is open for Today. Changing past dates requires <b>Admin Approval</b>.'}
+          </p>
+        </div>
+
+        <div class="panel-toolbar">
+          <div class="form-field" style="flex-direction:row;align-items:center;gap:8px;">
+            <label style="margin:0;">${isMr ? 'तारीख' : 'Date'}:</label>
+            <input type="date" value="${curDate}" onchange="changeDailyDatePrompt('${branch.id}', this.value)">
+          </div>
+
+          <div class="date-lock-pill ${isAllowed ? 'unlocked' : 'locked'}">
+            ${isAllowed ? (isMr ? '🔓 हजेरी नोंद खुली (Approved)' : '🔓 Unlocked (Approved)') : (isMr ? '🔒 ऍडमिन मंजुरी आवश्यक (Locked)' : '🔒 Admin Approval Required')}
+          </div>
+
+          ${!isAllowed ? `
+            <button class="btn btn-accent btn-sm" onclick="openRequestApprovalModal('${branch.id}', '${curDate}')">
+              🔐 ${isMr ? 'मंजुरी मिळवा / अनलॉक करा' : 'Unlock / Request Approval'}
+            </button>
+          ` : `
+            <button class="btn btn-success btn-sm" onclick="bulkMarkStatus('P')">
+              ✅ ${isMr ? 'सर्व हजर करा' : 'Mark All Present'}
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="bulkMarkStatus('WO')">
+              🌴 ${isMr ? 'सर्व रविवार सुट्टी' : 'Mark All Sunday Off'}
+            </button>
+          `}
+        </div>
+      </div>
+
+      ${!isAllowed ? `
+        <div style="background:#fff1f2;border:1px solid #fecaca;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.85rem;color:#991b1b;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+          <div>
+            <b>⚠️ ${isMr ? 'मागील तारीख नोंद लॉक आहे:' : 'Past date attendance is locked:'}</b>
+            ${isMr ? 'तारीख बदलण्यासाठी मुख्य ऍडमिनचा पासवर्ड किंवा मंजुरी आवश्यक आहे.' : 'Requires Main Admin Password or Approval to modify past dates.'}
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="openRequestApprovalModal('${branch.id}', '${curDate}')">
+            ${isMr ? 'पासवर्ड टाका किंवा विनंती पाठवा' : 'Enter Password / Request'}
+          </button>
+        </div>
+      ` : ''}
+
+      ${isSunday ? `
+        <div style="background:#f5f3ff;border:1px solid #ddd6fe;padding:10px 14px;border-radius:8px;margin-bottom:16px;font-size:0.85rem;color:#5b21b6;">
+          🌴 <b>${isMr ? 'आज रविवार (साप्ताहिक सुट्टी) आहे.' : 'Today is Sunday (Weekly Off).'}</b>
+        </div>
+      ` : ''}
+
+      <div class="form-grid" style="grid-template-columns:2fr 1fr;margin-bottom:16px;">
+        <div class="form-field">
+          <input type="text" placeholder="${isMr ? 'कर्मचाऱ्याचे नाव शोधा...' : 'Search employee...'}" value="${esc(uiState.searchQuery)}" oninput="updateSearch(this.value)">
+        </div>
+        <div class="form-field">
+          <select onchange="updatePostFilter(this.value)">
+            <option value="">${isMr ? '-- सर्व पदे --' : '-- All Designations --'}</option>
+            ${POSTS_LIST.map(p => `<option value="${esc(p)}" ${uiState.filterPost === p ? 'selected' : ''}>${esc(p)}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>${isMr ? 'कर्मचाऱ्याचे नाव' : 'Employee Name'}</th>
+              <th>${isMr ? 'पद' : 'Designation'}</th>
+              <th>${isMr ? 'हजेरी स्थिती' : 'Attendance Status'} (${curDate})</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function changeDailyDatePrompt(branchId, newDate) {
+  uiState.selectedDate = newDate;
+  const isAllowed = isDateAllowedForMarking(branchId, newDate);
+  if (!isAllowed) {
+    openRequestApprovalModal(branchId, newDate);
+  }
+  renderApp();
+}
+
+function handleStatusClick(empId, date, code, isAllowed) {
+  if (!isAllowed) {
+    openRequestApprovalModal(session.branchId, date);
+    return;
+  }
+  setAttendanceStatus(empId, date, code);
+}
+
+async function setAttendanceStatus(empId, date, code) {
+  DATA.attendance[attnKey(empId, date)] = code;
+  await persist();
+  showToast(`${date}: ${code}`, 'success');
+  renderApp();
+}
+
+async function bulkMarkStatus(code) {
+  const branch = DATA.branches.find(b => b.id === session.branchId);
+  const emps = DATA.employees.filter(e => e.branchId === branch.id);
+  const curDate = uiState.selectedDate;
+
+  if (!isDateAllowedForMarking(branch.id, curDate)) {
+    openRequestApprovalModal(branch.id, curDate);
+    return;
+  }
+
+  emps.forEach(e => {
+    DATA.attendance[attnKey(e.id, curDate)] = code;
+  });
+
+  await persist();
+  showToast(`सर्व कर्मचाऱ्यांना '${code}' नोंदवले गेले!`, 'success');
+  renderApp();
+}
+
+function updateSearch(q) {
+  uiState.searchQuery = q;
+  renderApp();
+}
+
+function updatePostFilter(p) {
+  uiState.filterPost = p;
+  renderApp();
+}
+
+function openRequestApprovalModal(branchId, targetDate) {
+  const isMr = (currentLang === 'mr');
+  const html = `
+    <h3 style="margin-bottom:14px;color:var(--primary);font-weight:800;">
+      🔐 ${isMr ? 'हजेरी तारीख बदल मंजुरी' : 'Admin Approval Required'}
+    </h3>
+    <p style="font-size:0.85rem;color:var(--ink-muted);margin-bottom:16px;">
+      ${isMr ? `तारीख <b>${targetDate}</b> ही मागील तारीख असल्याने बदल करण्यासाठी मुख्य ऍडमिनची मंजुरी आवश्यक आहे:`
+             : `Date <b>${targetDate}</b> is in the past. To modify, please authorize via one of the options below:`}
+    </p>
+
+    <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px;margin-bottom:16px;">
+      <h4 style="font-size:0.9rem;color:var(--primary);margin-bottom:8px;">
+        ${isMr ? 'पर्याय १: मुख्य ऍडमिन पासवर्डने त्वरित अनलॉक करा' : 'Option 1: Quick Unlock via Master Password'}
+      </h4>
+      <div class="form-field">
+        <label>${isMr ? 'मुख्य ऍडमिन पासवर्ड (Master Password):' : 'Master Password:'}</label>
+        <input type="password" id="masterPassQuickUnlock" placeholder="Enter password">
+      </div>
+      <button class="btn btn-primary btn-sm" style="margin-top:10px;" onclick="handleMasterPassUnlock('${targetDate}')">
+        🔓 ${isMr ? 'त्वरित अनलॉक करा' : 'Unlock Now'}
+      </button>
+    </div>
+
+    <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <h4 style="font-size:0.9rem;color:var(--ink);margin-bottom:8px;">
+        ${isMr ? 'पर्याय २: मुख्य ऍडमिनकडे मंजुरी विनंती पाठवा' : 'Option 2: Submit Approval Request to Admin'}
+      </h4>
+      <div class="form-field">
+        <label>${isMr ? 'कारण (Reason):' : 'Reason:'}</label>
+        <input type="text" id="reqApprovalReason" placeholder="${isMr ? 'उदा. काल हजेरी राहिली होती' : 'e.g. Backdated entry required'}">
+      </div>
+      <button class="btn btn-outline btn-sm" style="margin-top:10px;" onclick="handleSubmitApprovalRequest('${branchId}', '${targetDate}')">
+        📩 ${isMr ? 'विनंती पाठवा' : 'Send Request'}
+      </button>
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;margin-top:16px;">
+      <button class="btn btn-outline" onclick="closeModal()">${isMr ? 'बंद करा' : 'Close'}</button>
+    </div>
+  `;
+  openModal(html);
+}
+
+function handleMasterPassUnlock(targetDate) {
+  const entered = document.getElementById('masterPassQuickUnlock').value.trim();
+  const correct = DATA.mainAdminPassword || MASTER_ADMIN_DEFAULT_PASS;
+  if (entered === correct) {
+    uiState.sessionDateUnlocked = true;
+    closeModal();
+    showToast(`तारीख ${targetDate} अनलॉक झाली!`, 'success');
+    renderApp();
+  } else {
+    alert(currentLang === 'mr' ? 'चुकीचा मुख्य ऍडमिन पासवर्ड!' : 'Invalid Master Password!');
+  }
+}
+
+async function handleSubmitApprovalRequest(branchId, dateStr) {
+  const reason = document.getElementById('reqApprovalReason').value.trim() || 'तारीख बदल आवश्यक';
+  const branch = DATA.branches.find(b => b.id === branchId);
+
+  DATA.dateChangeRequests.push({
+    id: uid(),
+    branchId,
+    branchName: branch ? branch.name : 'शाखा',
+    date: dateStr,
+    reason,
+    requestedAt: new Date().toISOString(),
+    status: 'pending'
+  });
+
+  await persist();
+  closeModal();
+  showToast('मंजुरी विनंती पाठवली गेली!', 'success');
+  renderApp();
+}
+
+/* 2. MUSTER ROLL VIEW (20th TO 19th CYCLE) */
+function renderMusterRollView(branch, emps, cycle) {
+  const isMr = (currentLang === 'mr');
+  const availableCycles = getAvailableCycles();
+  const cycleSelectOpts = availableCycles.map(c => `
+    <option value="${c.id}" ${c.id === cycle.id ? 'selected' : ''}>${esc(c.label)}</option>
+  `).join('');
+
+  let dayHeaders = '';
+  cycle.dates.forEach(dStr => {
+    const dow = getDayOfWeek(dStr);
+    const isSun = (dow === 0);
+    const dayNum = dStr.split('-')[2];
+    dayHeaders += `<th class="${isSun ? 'sun-col' : ''}" title="${dStr}">${dayNum}</th>`;
+  });
+
+  const rows = emps.map(e => {
+    let dayCells = '';
+    cycle.dates.forEach(dStr => {
+      const dow = getDayOfWeek(dStr);
+      const isSun = (dow === 0);
+      const st = DATA.attendance[attnKey(e.id, dStr)] || 'NM';
+
+      dayCells += `
+        <td class="${isSun ? 'sun-col' : ''}">
+          <button class="muster-cell-btn m-${st}" title="${dStr}: ${st}"
+            onclick="cycleMusterStatus('${e.id}', '${dStr}', '${branch.id}')">
+            ${st === 'NM' ? '·' : st}
+          </button>
+        </td>
+      `;
+    });
+
+    const stats = getEmpCycleStats(e, cycle);
+
+    return `
+      <tr>
+        <td class="emp-col">
+          <div style="font-weight:700;">${esc(e.name)}</div>
+          <div style="font-size:0.7rem;color:var(--ink-muted);">${esc(e.post || '')}</div>
+        </td>
+        ${dayCells}
+        <td class="num"><b>${stats.P}</b></td>
+        <td class="num">${stats.A}</td>
+        <td class="num">${stats.H}</td>
+        <td class="num">${stats.CL}</td>
+        <td class="num">${stats.WO}</td>
+        <td class="num" style="font-weight:800;color:var(--primary);">${stats.payableDays}</td>
+      </tr>
+    `;
+  }).join('');
+
+  return `
+    <div class="panel-card">
+      <div class="panel-header">
+        <div>
+          <h2>${isMr ? 'मासिक मस्टर रोल (२० ते १९ कालावधी)' : 'Monthly Muster Roll (20th to 19th Period)'}</h2>
+          <p>
+            ${isMr ? 'वेतन महिना' : 'Cycle'}: <b>${esc(cycle.label)}</b> (${cycle.dates.length} ${isMr ? 'दिवस' : 'Days'}) — ${isMr ? '२० तारखेपासून पुढील १९ तारखेपर्यंत' : 'From 20th to 19th'}.
+          </p>
+        </div>
+
+        <div class="panel-toolbar">
+          <div class="form-field" style="flex-direction:row;align-items:center;gap:8px;">
+            <label style="margin:0;">${isMr ? 'वेतन चक्र' : 'Cycle'}:</label>
+            <select onchange="changeCycle(this.value)">
+              ${cycleSelectOpts}
+            </select>
+          </div>
+
+          <button class="btn btn-outline btn-sm" onclick="exportMusterExcelOnly('${branch.id}', '${cycle.id}')">
+            📥 ${isMr ? 'मस्टर रोल Excel (Muster Only)' : 'Export Muster Excel'}
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="switchTab('presenteePdf')">
+            📄 ${isMr ? 'उपस्थिती पत्रक (PDF View)' : 'Presentee Sheet (PDF)'}
+          </button>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;font-size:0.8rem;align-items:center;">
+        <b>${isMr ? 'खूण' : 'Legend'}:</b>
+        <span class="badge badge-P">P: ${isMr ? 'हजर' : 'Present'}</span>
+        <span class="badge badge-A">A: ${isMr ? 'गैरहजर' : 'Absent'}</span>
+        <span class="badge badge-H">H: ${isMr ? 'हाफ डे' : 'Half Day'}</span>
+        <span class="badge badge-CL">CL: ${isMr ? 'सी.एल.' : 'CL'}</span>
+        <span class="badge badge-WO">WO: ${isMr ? 'साप्ताहिक सुट्टी' : 'Sunday'}</span>
+        <span class="badge badge-HL">HL: ${isMr ? 'सण' : 'Holiday'}</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="muster-table">
+          <thead>
+            <tr>
+              <th class="emp-col">${isMr ? 'कर्मचारी' : 'Staff'}</th>
+              ${dayHeaders}
+              <th>P</th>
+              <th>A</th>
+              <th>H</th>
+              <th>CL</th>
+              <th>WO</th>
+              <th>${isMr ? 'देय' : 'Pay'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows || `<tr><td colspan="${cycle.dates.length + 7}" style="text-align:center;padding:24px;">${isMr ? 'कर्मचारी उपलब्ध नाहीत.' : 'No staff available.'}</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function changeCycle(cId) {
+  uiState.selectedCycleId = cId;
+  renderApp();
+}
+
+async function cycleMusterStatus(empId, dateStr, branchId) {
+  if (!isDateAllowedForMarking(branchId, dateStr)) {
+    openRequestApprovalModal(branchId, dateStr);
+    return;
+  }
+
+  const sequence = ['P', 'A', 'H', 'CL', 'WO', 'HL', 'NM'];
+  const cur = DATA.attendance[attnKey(empId, dateStr)] || 'NM';
+  const idx = sequence.indexOf(cur);
+  const next = sequence[(idx + 1) % sequence.length];
+
+  if (next === 'NM') {
+    delete DATA.attendance[attnKey(empId, dateStr)];
+  } else {
+    DATA.attendance[attnKey(empId, dateStr)] = next;
+  }
+
+  await persist();
+  renderApp();
+}
+
+/* EXPORT MUSTER TO EXCEL (ONLY THE MUSTER ROLL - NO SALARY COLUMNS) */
+function exportMusterExcelOnly(branchId, cycleId) {
+  const branch = DATA.branches.find(b => b.id === branchId);
+  const emps = DATA.employees.filter(e => e.branchId === branchId);
+  const cycle = parseCycleId(cycleId);
+
+  let csv = `VEDANT ENTERPRISES - कर्मचारी उपस्थिती मस्टर रोल (MUSTER ROLL ONLY)\n`;
+  csv += `शाखा:,"${branch.name} (${branch.district})"\n`;
+  csv += `कालावधी:,"${cycle.start} ते ${cycle.end} (२० तारखेपासून १९ तारखेपर्यंत)"\n`;
+  csv += `एकूण दिवस:,"${cycle.dates.length}"\n\n`;
+
+  csv += 'अ.क्र.,कर्मचाऱ्याचे नाव,पद,शाखा';
+  cycle.dates.forEach(dStr => {
+    const dow = ['रवि','सोम','मंगळ','बुध','गुरु','शुक्र','शनि'][getDayOfWeek(dStr)];
+    const day = dStr.split('-')[2];
+    csv += `,"${day} (${dow})"`;
+  });
+  csv += ',एकूण हजर (P),एकूण गैरहजर (A),हाफ डे (H),सी.एल. (CL),साप्ताहिक सुट्टी (WO),सण (HL),एकूण देय उपस्थिती दिवस\n';
+
+  emps.forEach((e, idx) => {
+    const stats = getEmpCycleStats(e, cycle);
+    csv += `${idx + 1},"${e.name}","${e.post || ''}","${branch.name}"`;
+
+    cycle.dates.forEach(dStr => {
+      const st = DATA.attendance[attnKey(e.id, dStr)] || '-';
+      csv += `,"${st}"`;
+    });
+
+    csv += `,${stats.P},${stats.A},${stats.H},${stats.CL},${stats.WO},${stats.HL},${stats.payableDays}\n`;
+  });
+
+  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${branch.name}_मस्टर_रोल_${cycle.start}_ते_${cycle.end}.csv`;
+  a.click();
+  showToast('मस्टर रोल Excel फाईल डाऊनलोड झाली!', 'success');
+}
+
+/* 3. CLEAN PRESENTEE SHEET (PDF - NO SCREENSHOTS) */
+function renderCleanPresenteePdfView(branch, emps, cycle) {
+  const isMr = (currentLang === 'mr');
+  let totalP = 0, totalA = 0, totalH = 0, totalCL = 0, totalWO = 0, totalPayable = 0;
+
+  const rows = emps.map((e, idx) => {
+    const stats = getEmpCycleStats(e, cycle);
+    totalP += stats.P;
+    totalA += stats.A;
+    totalH += stats.H;
+    totalCL += stats.CL;
+    totalWO += stats.WO;
+    totalPayable += stats.payableDays;
+
+    return `
+      <tr>
+        <td class="center">${idx + 1}</td>
+        <td style="font-weight:700;">${esc(e.name)}</td>
+        <td>${esc(e.post || 'Staff')}</td>
+        <td class="num">${stats.P}</td>
+        <td class="num">${stats.A}</td>
+        <td class="num">${stats.H}</td>
+        <td class="num">${stats.paidCL}</td>
+        <td class="num">${stats.paidWO}</td>
+        <td class="highlight">${stats.payableDays} / ${stats.totalDaysInCycle}</td>
+        <td class="center" style="font-weight:700;">${stats.attPercent}%</td>
+        <td style="min-width:110px;"></td>
+      </tr>
+    `;
+  }).join('');
+
+  return `
+    <div class="slip-actions-bar no-print" style="max-width:960px;margin:0 auto 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+      <button class="btn btn-outline btn-sm" onclick="switchTab('muster')">
+        ← ${isMr ? 'मागे मस्टरकडे' : 'Back to Muster'}
+      </button>
+
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-outline btn-sm" onclick="exportMusterExcelOnly('${branch.id}', '${cycle.id}')">
+          📥 ${isMr ? 'मस्टर Excel डाऊनलोड' : 'Download Muster Excel'}
+        </button>
+        <button class="btn btn-primary" onclick="window.print()">
+          🖨️ ${isMr ? 'PDF / प्रिंट करा (Print to PDF)' : 'Print to PDF'}
+        </button>
+      </div>
+    </div>
+
+    <div class="presentee-sheet-container" style="max-width:960px;margin:0 auto;">
+      <div class="ps-header">
+        <h1>VEDANT ENTERPRISES</h1>
+        <h2>${isMr ? 'कर्मचारी उपस्थिती पत्रक / MONTHLY PRESENTEE REGISTER' : 'MONTHLY PRESENTEE REGISTER'}</h2>
+        <p style="font-size:0.85rem;color:#475569;margin-top:4px;">
+          ${isMr ? 'कालावधी' : 'Period'}: <b>${cycle.start} ${isMr ? 'ते' : 'to'} ${cycle.end} (${isMr ? '२० ते १९ कालावधी' : '20th to 19th'})</b>
+        </p>
+      </div>
+
+      <div class="ps-meta-banner">
+        <span>🏢 ${isMr ? 'शाखा' : 'Branch'}: <b>${esc(branch.name)}</b> (${esc(branch.district)})</span>
+        <span>🗓️ ${isMr ? 'वेतन चक्र' : 'Cycle'}: <b>${esc(cycle.label)}</b></span>
+        <span>👥 ${isMr ? 'एकूण कर्मचारी' : 'Staff Count'}: <b>${emps.length}</b></span>
+      </div>
+
+      <table class="ps-table">
+        <thead>
+          <tr>
+            <th style="width:40px;">${isMr ? 'अ.क्र.' : 'Sr.'}</th>
+            <th>${isMr ? 'कर्मचाऱ्याचे नाव (Employee Name)' : 'Employee Name'}</th>
+            <th>${isMr ? 'पद (Designation)' : 'Designation'}</th>
+            <th>${isMr ? 'हजर (P)' : 'Present'}</th>
+            <th>${isMr ? 'गैरहजर (A)' : 'Absent'}</th>
+            <th>${isMr ? 'हाफ डे (H)' : 'Half'}</th>
+            <th>${isMr ? 'सी.एल. (CL)' : 'CL'}</th>
+            <th>${isMr ? 'रविवार (WO)' : 'WO'}</th>
+            <th>${isMr ? 'एकूण देय उपस्थिती दिवस' : 'Payable Days'}</th>
+            <th>${isMr ? 'उपस्थिती %' : 'Attendance %'}</th>
+            <th>${isMr ? 'स्वाक्षरी' : 'Signature'}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows || `<tr><td colspan="11" style="text-align:center;padding:20px;">${isMr ? 'कर्मचारी उपलब्ध नाहीत.' : 'No staff.'}</td></tr>`}
+          <tr style="background:#f1f5f9;font-weight:800;">
+            <td colspan="3" style="text-align:right;">${isMr ? 'एकूण सारांश (Total Summary):' : 'Total Summary:'}</td>
+            <td class="num">${totalP}</td>
+            <td class="num">${totalA}</td>
+            <td class="num">${totalH}</td>
+            <td class="num">${totalCL}</td>
+            <td class="num">${totalWO}</td>
+            <td class="highlight">${totalPayable}</td>
+            <td colspan="2"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="ps-footer-signs">
+        <div class="ps-sign-box">${isMr ? 'शाखा हजेरी नोंदणीकार' : 'Attendance Officer'}</div>
+        <div class="ps-sign-box">${isMr ? 'शाखा व्यवस्थापक स्वाक्षरी' : 'Branch Manager'}</div>
+        <div class="ps-sign-box">${isMr ? 'मुख्य ऍडमिन (Vedant Enterprises)' : 'Authorized Signatory'}</div>
+      </div>
+    </div>
+  `;
+}
+
+/* 4. EMPLOYEES VIEW (WITH STRICT CROSS-BRANCH DUPLICATE CHECK) */
+function renderEmployeesView(branch, emps) {
+  const isMr = (currentLang === 'mr');
+  const rows = emps.map(e => `
+    <tr>
+      <td style="font-weight:700;">${esc(e.name)}</td>
+      <td><span class="badge badge-gray">${esc(e.post || '—')}</span></td>
+      <td class="num"><b>${formatCurrency(e.salary)}</b></td>
+      <td>
+        <div style="font-size:0.8rem;">${esc(e.bankName || '—')}</div>
+        <div style="font-size:0.75rem;color:var(--ink-muted);">A/C: ${esc(e.accNo || '—')} · IFSC: ${esc(e.ifsc || '—')}</div>
+      </td>
+      <td>
+        ${Number(e.pfPercent) > 0 ? `<span class="badge badge-CL">${e.pfPercent}% PF</span>` :
+          (Number(e.pfManualAmount) > 0 ? `<span class="badge badge-CL">₹${e.pfManualAmount} PF</span>` : '<span style="font-size:0.8rem;color:var(--ink-muted);">नाही</span>')}
+      </td>
+      <td>
+        ${e.ptExempt ? `<span class="badge badge-WO">PT सूट</span>` : `<span class="badge badge-gray">नियमित PT</span>`}
+      </td>
+      <td>
+        <button class="btn btn-outline btn-sm btn-icon" onclick="openEditEmployeeModal('${e.id}')" title="बदल करा">✏️</button>
+        <button class="btn btn-accent btn-sm btn-icon" onclick="openAddAdvanceModal('${e.id}')" title="ॲडव्हान्स नोंदवा">💰</button>
+        <button class="btn btn-danger btn-sm btn-icon" onclick="deleteEmployee('${e.id}')" title="काढून टाका">🗑️</button>
+      </td>
+    </tr>
+  `).join('');
+
+  return `
+    <div class="panel-card">
+      <div class="panel-header">
+        <div>
+          <h2>${isMr ? 'कर्मचारी व्यवस्थापन' : 'Staff Management'}</h2>
+          <p>${isMr ? 'शाखेतील कर्मचारी यादी. एका कर्मचाऱ्याची दोन शाखांमध्ये नोंद करण्यास बंदी आहे.' : 'Staff list. An employee cannot be registered in multiple branches.'}</p>
+        </div>
+
+        <button class="btn btn-primary" onclick="openAddEmployeeModal()">
+          ➕ ${isMr ? 'नवीन कर्मचारी जोडा' : 'Add Employee'}
+        </button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>${isMr ? 'कर्मचाऱ्याचे नाव' : 'Name'}</th>
+              <th>${isMr ? 'पद' : 'Designation'}</th>
+              <th class="num">${isMr ? 'मासिक पगार' : 'Salary'}</th>
+              <th>${isMr ? 'बँक तपशील' : 'Bank Details'}</th>
+              <th>PF</th>
+              <th>PT</th>
+              <th>${isMr ? 'क्रिया' : 'Action'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows || `<tr><td colspan="7" style="text-align:center;padding:24px;">${isMr ? 'या शाखेत कर्मचारी नाहीत. वरील बटणावरून कर्मचारी जोडा.' : 'No staff in this branch.'}</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function openAddEmployeeModal() {
+  const isMr = (currentLang === 'mr');
+  const postOptions = POSTS_LIST.map(p => `<option value="${esc(p)}">${esc(p)}</option>`).join('');
+
+  const html = `
+    <h3 style="margin-bottom:16px;color:var(--primary);font-weight:800;">
+      ${isMr ? 'नवीन कर्मचारी नोंदणी' : 'Add New Staff Member'}
+    </h3>
+    <form onsubmit="handleSaveNewEmployee(event)">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>${isMr ? 'पूर्ण नाव *' : 'Full Name *'}</label>
+          <input type="text" id="newEmpName" required placeholder="उदा. राहुल शिंदे">
+        </div>
+        <div class="form-field">
+          <label>${isMr ? 'मासिक मूळ पगार (₹) *' : 'Monthly Salary (₹) *'}</label>
+          <input type="number" id="newEmpSalary" required placeholder="25000">
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label>${isMr ? 'पद *' : 'Designation *'}</label>
+          <select id="newEmpPost" required>
+            <option value="">${isMr ? '-- पद निवडा --' : '-- Select --'}</option>
+            ${postOptions}
+          </select>
+        </div>
+        <div class="form-field">
+          <label>${isMr ? 'मोबाईल क्रमांक (WhatsApp)' : 'Mobile Phone'}</label>
+          <input type="text" id="newEmpPhone" placeholder="9876543210">
+        </div>
+      </div>
+
+      <h4 style="font-size:0.9rem;margin:14px 0 8px;color:var(--ink);">${isMr ? 'बँक खाते तपशील' : 'Bank Details'}</h4>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>${isMr ? 'बँकेचे नाव' : 'Bank Name'}</label>
+          <input type="text" id="newEmpBank" placeholder="State Bank of India">
+        </div>
+        <div class="form-field">
+          <label>${isMr ? 'खाते क्रमांक' : 'Account No'}</label>
+          <input type="text" id="newEmpAcc" placeholder="30291029102">
+        </div>
+        <div class="form-field">
+          <label>IFSC</label>
+          <input type="text" id="newEmpIfsc" placeholder="SBIN0001423" style="text-transform:uppercase;">
+        </div>
+      </div>
+
+      <h4 style="font-size:0.9rem;margin:14px 0 8px;color:var(--ink);">${isMr ? 'PF व PT कपात' : 'PF & PT'}</h4>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>PF %</label>
+          <input type="number" id="newEmpPfPercent" value="0">
+        </div>
+        <div class="form-field">
+          <label>PF Manual (₹)</label>
+          <input type="number" id="newEmpPfManual" value="0">
+        </div>
+        <div class="form-field" style="justify-content:center;">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;margin-top:16px;">
+            <input type="checkbox" id="newEmpPtExempt">
+            <b>${isMr ? 'PT सूट' : 'PT Exemption'}</b>
+          </label>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;">
+        <button type="button" class="btn btn-outline" onclick="closeModal()">${isMr ? 'रद्द करा' : 'Cancel'}</button>
+        <button type="submit" class="btn btn-primary">${isMr ? 'कर्मचारी जोडा' : 'Save Employee'}</button>
+      </div>
+    </form>
+  `;
+
+  openModal(html, true);
+}
+
+// Check that no single employee exists in two branches
+function checkDuplicateEmployeeAcrossBranches(name, phone, accNo, ignoreEmpId = null) {
+  const normName = name.trim().toLowerCase();
+  const normPhone = (phone || '').trim();
+  const normAcc = (accNo || '').trim();
+
+  return DATA.employees.find(e => {
+    if (ignoreEmpId && e.id === ignoreEmpId) return false;
+    const sameName = e.name.trim().toLowerCase() === normName;
+    const samePhone = normPhone && e.phone && e.phone.trim() === normPhone;
+    const sameAcc = normAcc && e.accNo && e.accNo.trim() === normAcc;
+    return sameName || samePhone || sameAcc;
+  });
+}
+
+async function handleSaveNewEmployee(e) {
+  e.preventDefault();
+  const name = document.getElementById('newEmpName').value.trim();
+  const salary = Number(document.getElementById('newEmpSalary').value);
+  const post = document.getElementById('newEmpPost').value;
+  const phone = document.getElementById('newEmpPhone').value.trim();
+  const bankName = document.getElementById('newEmpBank').value.trim();
+  const accNo = document.getElementById('newEmpAcc').value.trim();
+  const ifsc = document.getElementById('newEmpIfsc').value.trim().toUpperCase();
+  const pfPercent = Number(document.getElementById('newEmpPfPercent').value) || 0;
+  const pfManualAmount = Number(document.getElementById('newEmpPfManual').value) || 0;
+  const ptExempt = document.getElementById('newEmpPtExempt').checked;
+
+  // Strict check: No employee can be in two branches
+  const duplicate = checkDuplicateEmployeeAcrossBranches(name, phone, accNo);
+  if (duplicate) {
+    const exBranch = DATA.branches.find(b => b.id === duplicate.branchId);
+    const bName = exBranch ? exBranch.name : 'दुसऱ्या';
+    alert(`❌ त्रुटी: "${duplicate.name}" हे कर्मचारी आधीच '${bName}' शाखेत नोंदणीकृत आहेत!\nएका कर्मचाऱ्याची दोन शाखांमध्ये नोंद करता येत नाही.`);
+    return;
+  }
+
+  DATA.employees.push({
+    id: uid(),
+    branchId: session.branchId,
+    name, salary, post, phone,
+    bankName, accNo, ifsc,
+    pfPercent, pfManualAmount, ptExempt
+  });
+
+  await persist();
+  closeModal();
+  showToast(`"${name}" यशस्वीरित्या जोडले गेले!`, 'success');
+  renderApp();
+}
+
+function openEditEmployeeModal(empId) {
+  const isMr = (currentLang === 'mr');
+  const emp = DATA.employees.find(e => e.id === empId);
+  if (!emp) return;
+
+  const postOptions = POSTS_LIST.map(p => `
+    <option value="${esc(p)}" ${emp.post === p ? 'selected' : ''}>${esc(p)}</option>
+  `).join('');
+
+  const html = `
+    <h3 style="margin-bottom:16px;color:var(--primary);font-weight:800;">${isMr ? 'कर्मचारी माहिती बदला' : 'Edit Staff Details'}</h3>
+    <form onsubmit="handleUpdateEmployee(event, '${emp.id}')">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>${isMr ? 'पूर्ण नाव *' : 'Full Name *'}</label>
+          <input type="text" id="editEmpName" required value="${esc(emp.name)}">
+        </div>
+        <div class="form-field">
+          <label>${isMr ? 'मासिक मूळ पगार (₹) *' : 'Salary (₹) *'}</label>
+          <input type="number" id="editEmpSalary" required value="${emp.salary}">
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label>${isMr ? 'पद *' : 'Designation *'}</label>
+          <select id="editEmpPost" required>
+            ${postOptions}
+          </select>
+        </div>
+        <div class="form-field">
+          <label>${isMr ? 'मोबाईल क्रमांक' : 'Mobile Phone'}</label>
+          <input type="text" id="editEmpPhone" value="${esc(emp.phone || '')}">
+        </div>
+      </div>
+
+      <h4 style="font-size:0.9rem;margin:14px 0 8px;color:var(--ink);">${isMr ? 'बँक खाते तपशील' : 'Bank Details'}</h4>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>${isMr ? 'बँकेचे नाव' : 'Bank Name'}</label>
+          <input type="text" id="editEmpBank" value="${esc(emp.bankName || '')}">
+        </div>
+        <div class="form-field">
+          <label>${isMr ? 'खाते क्रमांक' : 'Account No'}</label>
+          <input type="text" id="editEmpAcc" value="${esc(emp.accNo || '')}">
+        </div>
+        <div class="form-field">
+          <label>IFSC</label>
+          <input type="text" id="editEmpIfsc" value="${esc(emp.ifsc || '')}" style="text-transform:uppercase;">
+        </div>
+      </div>
+
+      <h4 style="font-size:0.9rem;margin:14px 0 8px;color:var(--ink);">${isMr ? 'PF व PT' : 'PF & PT'}</h4>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>PF %</label>
+          <input type="number" id="editEmpPfPercent" value="${emp.pfPercent || 0}">
+        </div>
+        <div class="form-field">
+          <label>PF Manual (₹)</label>
+          <input type="number" id="editEmpPfManual" value="${emp.pfManualAmount || 0}">
+        </div>
+        <div class="form-field" style="justify-content:center;">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;margin-top:16px;">
+            <input type="checkbox" id="editEmpPtExempt" ${emp.ptExempt ? 'checked' : ''}>
+            <b>${isMr ? 'PT सूट' : 'PT Exemption'}</b>
+          </label>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;">
+        <button type="button" class="btn btn-outline" onclick="closeModal()">${isMr ? 'रद्द करा' : 'Cancel'}</button>
+        <button type="submit" class="btn btn-primary">${isMr ? 'बदल जतन करा' : 'Save Changes'}</button>
+      </div>
+    </form>
+  `;
+
+  openModal(html, true);
+}
+
+async function handleUpdateEmployee(e, empId) {
+  e.preventDefault();
+  const emp = DATA.employees.find(x => x.id === empId);
+  if (!emp) return;
+
+  const name = document.getElementById('editEmpName').value.trim();
+  const salary = Number(document.getElementById('editEmpSalary').value);
+  const post = document.getElementById('editEmpPost').value;
+  const phone = document.getElementById('editEmpPhone').value.trim();
+  const bankName = document.getElementById('editEmpBank').value.trim();
+  const accNo = document.getElementById('editEmpAcc').value.trim();
+  const ifsc = document.getElementById('editEmpIfsc').value.trim().toUpperCase();
+  const pfPercent = Number(document.getElementById('editEmpPfPercent').value) || 0;
+  const pfManualAmount = Number(document.getElementById('editEmpPfManual').value) || 0;
+  const ptExempt = document.getElementById('editEmpPtExempt').checked;
+
+  const duplicate = checkDuplicateEmployeeAcrossBranches(name, phone, accNo, empId);
+  if (duplicate) {
+    const exBranch = DATA.branches.find(b => b.id === duplicate.branchId);
+    const bName = exBranch ? exBranch.name : 'दुसऱ्या';
+    alert(`❌ त्रुटी: "${duplicate.name}" हे कर्मचारी आधीच '${bName}' शाखेत नोंदणीकृत आहेत!\nएका कर्मचाऱ्याची दोन शाखांमध्ये नोंद करता येत नाही.`);
+    return;
+  }
+
+  emp.name = name;
+  emp.salary = salary;
+  emp.post = post;
+  emp.phone = phone;
+  emp.bankName = bankName;
+  emp.accNo = accNo;
+  emp.ifsc = ifsc;
+  emp.pfPercent = pfPercent;
+  emp.pfManualAmount = pfManualAmount;
+  emp.ptExempt = ptExempt;
+
+  await persist();
+  closeModal();
+  showToast('कर्मचारी माहिती अद्ययावत झाली!', 'success');
+  renderApp();
+}
+
+async function deleteEmployee(empId) {
+  const emp = DATA.employees.find(e => e.id === empId);
+  if (!confirm(`तुम्हाला "${emp.name}" यांना काढून टाकायचे आहे का?`)) return;
+
+  DATA.employees = DATA.employees.filter(e => e.id !== empId);
+  Object.keys(DATA.attendance).forEach(k => {
+    if (k.startsWith(empId + '|')) delete DATA.attendance[k];
+  });
+  DATA.advances = DATA.advances.filter(a => a.empId !== empId);
+
+  await persist();
+  showToast('कर्मचारी हटवण्यात आला.', 'success');
+  renderApp();
+}
+
+/* 5. MONTHLY PAYROLL REPORT (20th TO 19th CYCLE) */
+function renderPayrollReportView(branch, emps, cycle) {
+  const isMr = (currentLang === 'mr');
+  let totBasic = 0, totAdv = 0, totPf = 0, totPt = 0, totNet = 0;
+
+  const rows = emps.map(e => {
+    const s = getEmpCycleStats(e, cycle);
+    totBasic += s.earnedBasic;
+    totAdv += s.advanceDeduction;
+    totPf += s.pfDeduction;
+    totPt += s.ptDeduction;
+    totNet += s.netPayable;
+
+    return `
+      <tr>
+        <td style="font-weight:700;">${esc(e.name)}</td>
+        <td><span class="badge badge-gray">${esc(e.post || '—')}</span></td>
+        <td class="num">${s.totalDaysInCycle}</td>
+        <td class="num">${s.P}</td>
+        <td class="num">${s.A}</td>
+        <td class="num">${s.H}</td>
+        <td class="num">${s.paidCL}</td>
+        <td class="num">${s.paidWO}</td>
+        <td class="num" style="font-weight:700;">${s.payableDays}</td>
+        <td class="num">${formatCurrency(e.salary)}</td>
+        <td class="num">${formatCurrency(s.earnedBasic)}</td>
+        <td class="num">${s.advanceDeduction > 0 ? `<span style="color:var(--c-absent);">−${formatCurrency(s.advanceDeduction)}</span>` : '—'}</td>
+        <td class="num">${s.pfDeduction > 0 ? `−${formatCurrency(s.pfDeduction)}` : '—'}</td>
+        <td class="num">${s.ptDeduction > 0 ? `−${formatCurrency(s.ptDeduction)}` : '—'}</td>
+        <td class="num" style="font-weight:800;color:var(--primary);">${formatCurrency(s.netPayable)}</td>
+        <td>
+          <button class="btn btn-outline btn-sm" onclick="viewSingleSalarySlip('${e.id}', '${cycle.id}')">🧾 स्लिप</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  return `
+    <div class="panel-card">
+      <div class="panel-header">
+        <div>
+          <h2>${isMr ? 'मासिक वेतन अहवाल' : 'Payroll Report'} (${esc(cycle.label)})</h2>
+          <p>${isMr ? '२० तारखेपासून पुढील १९ तारखेपर्यंतच्या हजेरीनुसार पगार व कपाती.' : 'Salary and deductions from 20th to 19th.'}</p>
+        </div>
+
+        <div class="panel-toolbar">
+          <div class="form-field" style="flex-direction:row;align-items:center;gap:8px;">
+            <label style="margin:0;">${isMr ? 'वेतन चक्र' : 'Cycle'}:</label>
+            <select onchange="changeCycle(this.value)">
+              ${getAvailableCycles().map(c => `<option value="${c.id}" ${c.id === cycle.id ? 'selected' : ''}>${esc(c.label)}</option>`).join('')}
+            </select>
+          </div>
+
+          <button class="btn btn-outline" onclick="exportBranchPayrollCsv('${branch.id}', '${cycle.id}')">
+            📥 CSV
+          </button>
+          <button class="btn btn-primary" onclick="window.print()">
+            🖨️ ${isMr ? 'प्रिंट' : 'Print'}
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>${isMr ? 'कर्मचारी' : 'Staff'}</th>
+              <th>${isMr ? 'पद' : 'Post'}</th>
+              <th class="num">${isMr ? 'कालावधी दिवस' : 'Days'}</th>
+              <th class="num">P</th>
+              <th class="num">A</th>
+              <th class="num">H</th>
+              <th class="num">CL</th>
+              <th class="num">WO</th>
+              <th class="num">${isMr ? 'देय दिवस' : 'Payable'}</th>
+              <th class="num">${isMr ? 'मूळ पगार' : 'Basic'}</th>
+              <th class="num">${isMr ? 'कमावलेला' : 'Earned'}</th>
+              <th class="num">${isMr ? 'ॲडव्हान्स' : 'Adv'}</th>
+              <th class="num">PF</th>
+              <th class="num">PT</th>
+              <th class="num">${isMr ? 'अंतिम देय' : 'Net Pay'}</th>
+              <th>${isMr ? 'क्रिया' : 'Action'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows || `<tr><td colspan="16" style="text-align:center;padding:24px;">${isMr ? 'कर्मचारी उपलब्ध नाहीत.' : 'No staff.'}</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function exportBranchPayrollCsv(branchId, cycleId) {
+  const b = DATA.branches.find(x => x.id === branchId);
+  const emps = DATA.employees.filter(e => e.branchId === branchId);
+  const cycle = parseCycleId(cycleId);
+
+  let csv = 'नाव,पद,कालावधी,एकूण दिवस,हजर (P),गैरहजर (A),हाफ डे (H),CL,रविवार (WO),देय दिवस,मूळ पगार,कमावलेला मूळ,ॲडव्हान्स कपात,PF कपात,PT कपात,अंतिम देय पगार,बँकेचे नाव,खाते क्रमांक,IFSC कोड\n';
+
+  emps.forEach(e => {
+    const s = getEmpCycleStats(e, cycle);
+    csv += `"${e.name}","${e.post || ''}","${cycle.start} to ${cycle.end}",${s.totalDaysInCycle},${s.P},${s.A},${s.H},${s.CL},${s.paidWO},${s.payableDays},${e.salary},${s.earnedBasic},${s.advanceDeduction},${s.pfDeduction},${s.ptDeduction},${s.netPayable},"${e.bankName || ''}","${e.accNo || ''}","${e.ifsc || ''}"\n`;
+  });
+
+  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${b.name}_वेतन_अहवाल_${cycle.start}_ते_${cycle.end}.csv`;
+  a.click();
+}
+
+/* 6. SALARY SLIPS (20th TO 19th CYCLE) */
+function renderSlipsView(branch, emps, cycle) {
+  const isMr = (currentLang === 'mr');
+  if (uiState.viewSlipEmpId) {
+    const emp = emps.find(e => e.id === uiState.viewSlipEmpId);
+    if (emp) {
+      return renderOfficialSalarySlip(emp, branch, cycle);
+    }
+  }
+
+  const empOptions = emps.map(e => `
+    <option value="${e.id}" ${uiState.viewSlipEmpId === e.id ? 'selected' : ''}>${esc(e.name)} — ${esc(e.post || '')}</option>
+  `).join('');
+
+  return `
+    <div class="panel-card">
+      <div class="panel-header">
+        <div>
+          <h2>${isMr ? 'कर्मचारी पगार स्लिप (२० ते १९ कालावधी)' : 'Salary Slip Generator'}</h2>
+          <p>${isMr ? 'कर्मचारी निवडा — २० तारखेपासून पुढील १९ तारखेपर्यंतच्या हजेरीनुसार पगार पावती तयार होईल.' : 'Select staff to generate payslip for 20th to 19th cycle.'}</p>
+        </div>
+      </div>
+
+      <div class="form-grid" style="max-width:600px;margin-bottom:20px;">
+        <div class="form-field">
+          <label>${isMr ? 'कर्मचारी निवडा:' : 'Select Employee:'}</label>
+          <select id="slipSelectEmpId">
+            <option value="">${isMr ? '-- कर्मचारी निवडा --' : '-- Select --'}</option>
+            ${empOptions}
+          </select>
+        </div>
+        <div class="form-field">
+          <label>${isMr ? 'वेतन चक्र निवडा:' : 'Select Cycle:'}</label>
+          <select id="slipSelectCycle">
+            ${getAvailableCycles().map(c => `<option value="${c.id}" ${c.id === cycle.id ? 'selected' : ''}>${esc(c.label)}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="generateSelectedSlip()">
+        🧾 ${isMr ? 'वेतन स्लिप तयार करा' : 'Generate Payslip'}
+      </button>
+    </div>
+  `;
+}
+
+function generateSelectedSlip() {
+  const empId = document.getElementById('slipSelectEmpId').value;
+  const cId = document.getElementById('slipSelectCycle').value;
+  if (!empId) {
+    alert(currentLang === 'mr' ? 'कृपया कर्मचारी निवडा.' : 'Please select an employee.');
+    return;
+  }
+  uiState.viewSlipEmpId = empId;
+  uiState.selectedCycleId = cId;
+  renderApp();
+}
+
+function viewSingleSalarySlip(empId, cycleId) {
+  uiState.viewSlipEmpId = empId;
+  uiState.selectedCycleId = cycleId;
+  uiState.currentTab = 'slips';
+  renderApp();
+}
+
+function renderOfficialSalarySlip(emp, branch, cycle) {
+  const stats = getEmpCycleStats(emp, cycle);
+  const words = currentLang === 'mr' ? numberToWordsMarathi(stats.netPayable) : numberToWordsEnglish(stats.netPayable);
+
+  return `
+    <div class="slip-actions-bar no-print" style="max-width:820px;margin:0 auto 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+      <button class="btn btn-outline btn-sm" onclick="uiState.viewSlipEmpId=null;renderApp();">
+        ← ${currentLang === 'mr' ? 'मागे यादीकडे' : 'Back'}
+      </button>
+
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-success" onclick="shareSlipOnWhatsApp('${emp.id}', '${cycle.id}')">
+          💬 WhatsApp
+        </button>
+        <button class="btn btn-primary" onclick="window.print()">
+          🖨️ ${currentLang === 'mr' ? 'प्रिंट / Save as PDF' : 'Print / Save PDF'}
+        </button>
+      </div>
+    </div>
+
+    <div class="slip-container" id="printableSalarySlip">
+      <div class="slip-head">
+        <div class="slip-title">
+          <h2>Vedant Enterprises</h2>
+          <p>${esc(branch.name)} — ${esc(branch.district)}</p>
+        </div>
+
+        <div style="text-align:right;">
+          <div class="slip-badge-pill">SALARY SLIP / पगार पावती</div>
+          <div style="font-size:0.85rem;font-weight:700;margin-top:6px;color:var(--primary);">${esc(cycle.label)}</div>
+          <div style="font-size:0.75rem;color:var(--ink-muted);">${cycle.start} ते ${cycle.end} (२० ते १९)</div>
+        </div>
+      </div>
+
+      <div class="slip-meta-grid">
+        <div class="slip-meta-row">
+          <span class="slip-meta-label">कर्मचाऱ्याचे नाव:</span>
+          <span class="slip-meta-value">${esc(emp.name)}</span>
+        </div>
+        <div class="slip-meta-row">
+          <span class="slip-meta-label">Employee ID:</span>
+          <span class="slip-meta-value">${esc(emp.id)}</span>
+        </div>
+        <div class="slip-meta-row">
+          <span class="slip-meta-label">पद (Designation):</span>
+          <span class="slip-meta-value">${esc(emp.post || 'Staff')}</span>
+        </div>
+        <div class="slip-meta-row">
+          <span class="slip-meta-label">शाखा / Branch:</span>
+          <span class="slip-meta-value">${esc(branch.name)}</span>
+        </div>
+        <div class="slip-meta-row">
+          <span class="slip-meta-label">बँकेचे नाव:</span>
+          <span class="slip-meta-value">${esc(emp.bankName || '—')}</span>
+        </div>
+        <div class="slip-meta-row">
+          <span class="slip-meta-label">खाते क्र. (A/C):</span>
+          <span class="slip-meta-value">${esc(emp.accNo || '—')}</span>
+        </div>
+        <div class="slip-meta-row">
+          <span class="slip-meta-label">IFSC कोड:</span>
+          <span class="slip-meta-value">${esc(emp.ifsc || '—')}</span>
+        </div>
+        <div class="slip-meta-row">
+          <span class="slip-meta-label">मोबाईल क्र.:</span>
+          <span class="slip-meta-value">${esc(emp.phone || '—')}</span>
+        </div>
+      </div>
+
+      <div class="slip-summary-cards">
+        <div class="slip-sum-box"><b>${stats.totalDaysInCycle}</b><span>कालावधी दिवस</span></div>
+        <div class="slip-sum-box"><b>${stats.P}</b><span>हजर (P)</span></div>
+        <div class="slip-sum-box"><b>${stats.A}</b><span>गैरहजर (A)</span></div>
+        <div class="slip-sum-box"><b>${stats.H}</b><span>हाफ डे (H)</span></div>
+        <div class="slip-sum-box"><b>${stats.paidCL}</b><span>सी.एल. (पगारी)</span></div>
+        <div class="slip-sum-box" style="background:#eff6ff;"><b>${stats.payableDays}</b><span>एकूण देय दिवस</span></div>
+      </div>
+
+      <div class="slip-breakdown-grid">
+        <div class="slip-table-box">
+          <h4>कमाई / EARNINGS</h4>
+          <table class="slip-table">
+            <tr><td>मूळ पगार (Basic Monthly)</td><td class="num">${formatCurrency(emp.salary)}</td></tr>
+            <tr><td>हजेरीनुसार कमावलेला</td><td class="num"><b>${formatCurrency(stats.earnedBasic)}</b></td></tr>
+            <tr><td>घरभाडे भत्ता (HRA)</td><td class="num">${formatCurrency(stats.hra)}</td></tr>
+            <tr><td>इतर भत्ते</td><td class="num">${formatCurrency(stats.otherAllowance)}</td></tr>
+            <tr class="total-row"><td>एकूण स्थूल वेतन (GROSS)</td><td class="num">${formatCurrency(stats.grossSalary)}</td></tr>
+          </table>
+        </div>
+
+        <div class="slip-table-box">
+          <h4>कपात / DEDUCTIONS</h4>
+          <table class="slip-table">
+            <tr><td>भविष्य निर्वाह निधी (PF)</td><td class="num">${formatCurrency(stats.pfDeduction)}</td></tr>
+            <tr><td>महाराष्ट्र व्यवसाय कर (PT)</td><td class="num">${formatCurrency(stats.ptDeduction)}</td></tr>
+            <tr><td>ॲडव्हान्स कपात (Advance EMI)</td><td class="num">${formatCurrency(stats.advanceDeduction)}</td></tr>
+            <tr class="total-row"><td>एकूण कपात (TOTAL DEDUCTIONS)</td><td class="num" style="color:var(--c-absent);">${formatCurrency(stats.totalDeductions)}</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="slip-net-banner">
+        <div>
+          <div style="font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;opacity:0.9;">अंतिम देय निव्वळ पगार (NET PAYABLE SALARY)</div>
+          <div style="font-size:0.75rem;opacity:0.8;">देय दिवस: ${stats.payableDays} / ${stats.totalDaysInCycle} (${cycle.start} ते ${cycle.end})</div>
+        </div>
+        <div class="amount">${formatCurrency(stats.netPayable)}</div>
+      </div>
+
+      <div class="slip-words">
+        <b>अक्षरी:</b> ${words}
+      </div>
+
+      <div class="slip-sign-row">
+        <div class="slip-sign-box">कर्मचाऱ्याची स्वाक्षरी</div>
+        <div class="slip-sign-box">शाखा व्यवस्थापक स्वाक्षरी</div>
+        <div class="slip-sign-box">अधिकृत प्रतिनिधी (Vedant Enterprises)</div>
+      </div>
+    </div>
+  `;
+}
+
+function shareSlipOnWhatsApp(empId, cycleId) {
+  const emp = DATA.employees.find(e => e.id === empId);
+  const branch = DATA.branches.find(b => b.id === emp.branchId);
+  const cycle = parseCycleId(cycleId);
+  const stats = getEmpCycleStats(emp, cycle);
+
+  const text =
+`*🏢 VEDANT ENTERPRISES - वेतन पावती (SALARY SLIP)*
+📅 *वेतन कालावधी:* ${cycle.start} ते ${cycle.end} (२० ते १९)
+👤 *कर्मचारी:* ${emp.name}
+💼 *पद:* ${emp.post || 'Staff'}
+📍 *शाखा:* ${branch.name} (${branch.district})
+---------------------------------
+🗓️ *कालावधी दिवस:* ${stats.totalDaysInCycle}
+✅ *हजर दिवस:* ${stats.P}
+🌴 *एकूण देय दिवस:* ${stats.payableDays}
+💵 *मूळ पगार:* ${formatCurrency(emp.salary)}
+📈 *कमावलेला पगार:* ${formatCurrency(stats.earnedBasic)}
+---------------------------------
+🔻 *कपाती:*
+• PF: ${formatCurrency(stats.pfDeduction)}
+• PT: ${formatCurrency(stats.ptDeduction)}
+• ॲडव्हान्स EMI: ${formatCurrency(stats.advanceDeduction)}
+• एकूण कपात: ${formatCurrency(stats.totalDeductions)}
+---------------------------------
+💰 *अंतिम देय निव्वळ पगार (NET PAY):* *${formatCurrency(stats.netPayable)}*
+🏦 *बँक खाते:* ${emp.bankName || '—'} (A/C: ${emp.accNo ? '...' + String(emp.accNo).slice(-4) : '—'})
+---------------------------------
+_(संगणकीय वेतन पावती - Vedant Enterprises)_`;
+
+  let cleanPhone = (emp.phone || '').replace(/[^0-9]/g, '');
+  if (cleanPhone.length === 10) cleanPhone = '91' + cleanPhone;
+
+  const url = cleanPhone ?
+    `https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}` :
+    `https://wa.me/?text=${encodeURIComponent(text)}`;
+
+  window.open(url, '_blank');
+}
+
+/* 7. SALARY ADVANCES VIEW */
+function renderAdvancesView(branch, emps, cycle) {
+  const isMr = (currentLang === 'mr');
+  const advs = DATA.advances.filter(a => a.branchId === branch.id);
+
+  const rows = advs.map(a => {
+    const emp = emps.find(e => e.id === a.empId);
+    const remaining = advanceRemainingForCycle(a, cycle);
+    const thisDed = deductionForCycle(a, cycle);
+
+    return `
+      <tr>
+        <td style="font-weight:700;">${esc(emp ? emp.name : '(हटवलेला कर्मचारी)')}</td>
+        <td>${esc(a.date)}</td>
+        <td class="num">${formatCurrency(a.amount)}</td>
+        <td class="num">${formatCurrency(a.monthlyDeduction)} / महिना</td>
+        <td class="num" style="color:var(--primary);">${thisDed > 0 ? formatCurrency(thisDed) : '—'}</td>
+        <td class="num">
+          ${remaining > 0 ? `<span style="font-weight:700;color:var(--c-absent);">${formatCurrency(remaining)}</span>` : '<span class="badge badge-P">पूर्ण फेड</span>'}
+        </td>
+        <td>${esc(a.note || '—')}</td>
+        <td>
+          <button class="btn btn-danger btn-sm btn-icon" onclick="deleteAdvance('${a.id}')" title="काढून टाका">🗑️</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  return `
+    <div class="panel-card">
+      <div class="panel-header">
+        <div>
+          <h2>${isMr ? 'पगार ॲडव्हान्स लेजर' : 'Salary Advances Ledger'}</h2>
+          <p>${isMr ? 'कर्मचाऱ्यांना दिलेले ॲडव्हान्स आणि मासिक हप्ता (EMI) नियोजन.' : 'Advance loan tracker & deductions.'}</p>
+        </div>
+
+        <button class="btn btn-primary" onclick="openAddAdvanceModal()">
+          ➕ ${isMr ? 'नवीन ॲडव्हान्स नोंदवा' : 'Record Advance'}
+        </button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>${isMr ? 'कर्मचारी' : 'Staff'}</th>
+              <th>${isMr ? 'तारीख' : 'Date'}</th>
+              <th class="num">${isMr ? 'एकूण ॲडव्हान्स' : 'Amount'}</th>
+              <th class="num">${isMr ? 'मासिक हप्ता' : 'EMI'}</th>
+              <th class="num">${isMr ? 'या चक्रातील कपात' : 'Cycle Deduction'}</th>
+              <th class="num">${isMr ? 'शिल्लक थकबाकी' : 'Balance'}</th>
+              <th>${isMr ? 'टीप' : 'Note'}</th>
+              <th>${isMr ? 'क्रिया' : 'Action'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows || `<tr><td colspan="8" style="text-align:center;padding:24px;">${isMr ? 'या शाखेत ॲडव्हान्सच्या नोंदी नाहीत.' : 'No advances.'}</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function openAddAdvanceModal(preselectedEmpId = '') {
+  const isMr = (currentLang === 'mr');
+  const branch = DATA.branches.find(b => b.id === session.branchId);
+  const emps = DATA.employees.filter(e => e.branchId === branch.id);
+
+  const empOptions = emps.map(e => `
+    <option value="${e.id}" ${preselectedEmpId === e.id ? 'selected' : ''}>${esc(e.name)} (पगार: ₹${e.salary})</option>
+  `).join('');
+
+  const html = `
+    <h3 style="margin-bottom:16px;color:var(--primary);font-weight:800;">${isMr ? 'नवीन पगार ॲडव्हान्स नोंद' : 'Record Salary Advance'}</h3>
+    <form onsubmit="handleSaveAdvance(event)">
+      <div class="form-field" style="margin-bottom:14px;">
+        <label>${isMr ? 'कर्मचारी निवडा *' : 'Select Employee *'}</label>
+        <select id="advEmpId" required>
+          <option value="">${isMr ? '-- निवडा --' : '-- Select --'}</option>
+          ${empOptions}
+        </select>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label>${isMr ? 'दिलेली एकूण रक्कम (₹) *' : 'Total Amount (₹) *'}</label>
+          <input type="number" id="advAmount" required placeholder="10000">
+        </div>
+        <div class="form-field">
+          <label>${isMr ? 'दरमहा कपात हप्ता (EMI ₹) *' : 'Monthly EMI (₹) *'}</label>
+          <input type="number" id="advEMI" required placeholder="2500">
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label>${isMr ? 'तारीख *' : 'Date *'}</label>
+          <input type="date" id="advDate" required value="${todayStr()}">
+        </div>
+        <div class="form-field">
+          <label>${isMr ? 'कारण / टीप' : 'Reason / Note'}</label>
+          <input type="text" id="advNote" placeholder="उदा. सण ॲडव्हान्स">
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;">
+        <button type="button" class="btn btn-outline" onclick="closeModal()">${isMr ? 'रद्द करा' : 'Cancel'}</button>
+        <button type="submit" class="btn btn-primary">${isMr ? 'ॲडव्हान्स जतन करा' : 'Save Advance'}</button>
+      </div>
+    </form>
+  `;
+
+  openModal(html);
+}
+
+async function handleSaveAdvance(e) {
+  e.preventDefault();
+  const empId = document.getElementById('advEmpId').value;
+  const amount = Number(document.getElementById('advAmount').value);
+  const monthlyDeduction = Number(document.getElementById('advEMI').value);
+  const date = document.getElementById('advDate').value;
+  const note = document.getElementById('advNote').value.trim();
+
+  DATA.advances.push({
+    id: uid(),
+    branchId: session.branchId,
+    empId, amount, monthlyDeduction, date, note
+  });
+
+  await persist();
+  closeModal();
+  showToast('ॲडव्हान्स जतन झाला!', 'success');
+  renderApp();
+}
+
+async function deleteAdvance(advId) {
+  if (!confirm('ही ॲडव्हान्स नोंद काढून टाकायची?')) return;
+  DATA.advances = DATA.advances.filter(a => a.id !== advId);
+  await persist();
+  showToast('ॲडव्हान्स हटवला गेला.', 'success');
+  renderApp();
+}
+
+/* ============================================================
+   CENTRAL ADMIN (मुख्य ऍडमिन) VIEWS
+   ============================================================ */
+
+function renderMainKpis(cycle) {
+  const today = todayStr();
+  const isMr = (currentLang === 'mr');
+  let totalStaff = 0, todayMarked = 0, totalNet = 0;
+
+  DATA.branches.forEach(b => {
+    const emps = DATA.employees.filter(e => e.branchId === b.id);
+    totalStaff += emps.length;
+    emps.forEach(e => {
+      if (DATA.attendance[attnKey(e.id, today)]) todayMarked++;
+      const s = getEmpCycleStats(e, cycle);
+      totalNet += s.netPayable;
+    });
+  });
+
+  return `
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-icon blue">🏢</div>
+        <div class="kpi-content">
+          <div class="kpi-val">${DATA.branches.length}</div>
+          <div class="kpi-label">${isMr ? 'सक्रिय शाखा' : 'Active Branches'}</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon green">👥</div>
+        <div class="kpi-content">
+          <div class="kpi-val">${totalStaff}</div>
+          <div class="kpi-label">${isMr ? 'सर्व शाखा कर्मचारी' : 'Total Employees'}</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon amber">✅</div>
+        <div class="kpi-content">
+          <div class="kpi-val">${todayMarked} / ${totalStaff}</div>
+          <div class="kpi-label">${isMr ? 'आजची हजेरी नोंद' : 'Today Marked'}</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon purple">🏦</div>
+        <div class="kpi-content">
+          <div class="kpi-val">${formatCurrency(totalNet)}</div>
+          <div class="kpi-label">${cycle.label} ${isMr ? 'एकूण पगार' : 'Total Net Pay'}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* 1. CENTRAL OVERVIEW (CLICKING SHOWS REPORT - DOES NOT LOGIN AS BRANCH!) */
+function renderMainOverviewView() {
+  const today = todayStr();
+  const isMr = (currentLang === 'mr');
+
+  const cards = DATA.branches.map(b => {
+    const emps = DATA.employees.filter(e => e.branchId === b.id);
+    let P = 0, A = 0, H = 0, CL = 0, WO = 0;
+
+    emps.forEach(e => {
+      const st = DATA.attendance[attnKey(e.id, today)];
+      if (st === 'P') P++;
+      else if (st === 'A') A++;
+      else if (st === 'H') H++;
+      else if (st === 'CL') CL++;
+      else if (st === 'WO') WO++;
+    });
+
+    const marked = P + A + H + CL + WO;
+
+    return `
+      <div class="panel-card" style="cursor:pointer;border-top:4px solid var(--primary);" onclick="adminOpenBranchReports('${b.id}')">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+          <div>
+            <h3 style="font-size:1.1rem;font-weight:700;color:var(--ink);">${esc(b.name)}</h3>
+            <p style="font-size:0.8rem;color:var(--ink-muted);">${esc(b.district)}</p>
+          </div>
+          <span class="badge badge-gray">${emps.length} ${isMr ? 'कर्मचारी' : 'Staff'}</span>
+        </div>
+
+        <div style="font-size:0.85rem;margin-bottom:12px;">
+          <b>${isMr ? 'आजची हजेरी' : 'Today Attendance'}:</b> ${marked} / ${emps.length}
+        </div>
+
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+          <span class="badge badge-P">P: ${P}</span>
+          <span class="badge badge-A">A: ${A}</span>
+          <span class="badge badge-H">H: ${H}</span>
+          <span class="badge badge-CL">CL: ${CL}</span>
+          <span class="badge badge-WO">WO: ${WO}</span>
+        </div>
+
+        <div style="text-align:right;">
+          <span style="font-size:0.8rem;color:var(--primary);font-weight:700;">📊 ${isMr ? 'अहवाल पहा →' : 'View Reports →'}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <div class="panel-card">
+      <div class="panel-header">
+        <div>
+          <h2>${isMr ? 'सर्व शाखा हजेरी विहंगावलोकन' : 'All Branches Attendance Overview'}</h2>
+          <p>${isMr ? 'शाखेवर क्लिक करून त्या शाखेचा संपूर्ण अहवाल व वैयक्तिक कर्मचाऱ्याचा हजेरी-वेतन अहवाल पहा.' : 'Click any branch to view its complete reports and individual employee stats.'}</p>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+        ${cards}
+      </div>
+    </div>
+  `;
+}
+
+// When Main Admin clicks on any branch: opens branch report view (NOT logging in as branch!)
+function adminOpenBranchReports(branchId) {
+  uiState.mainViewingBranchId = branchId;
+  uiState.mainIndivEmpId = null;
+  renderApp();
+}
+
+function adminCloseBranchReports() {
+  uiState.mainViewingBranchId = null;
+  uiState.mainIndivEmpId = null;
+  renderApp();
+}
+
+/* MAIN ADMIN: BRANCH REPORT & INDIVIDUAL REPORT VIEW */
+function renderAdminBranchReportView(branchId, cycle) {
+  const isMr = (currentLang === 'mr');
+  const branch = DATA.branches.find(b => b.id === branchId);
+  if (!branch) return adminCloseBranchReports();
+
+  const emps = DATA.employees.filter(e => e.branchId === branchId);
+
+  // If viewing an individual employee report
+  let indivReportHtml = '';
+  if (uiState.mainIndivEmpId) {
+    const indivEmp = emps.find(e => e.id === uiState.mainIndivEmpId);
+    if (indivEmp) {
+      const stats = getEmpCycleStats(indivEmp, cycle);
+      indivReportHtml = `
+        <div style="background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:20px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+            <div>
+              <h3 style="font-size:1.15rem;font-weight:800;color:var(--primary);">${esc(indivEmp.name)}</h3>
+              <p style="font-size:0.8rem;color:var(--ink-muted);">${esc(indivEmp.post || 'Staff')} · ${esc(branch.name)}</p>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-outline btn-sm" onclick="uiState.viewSlipEmpId='${indivEmp.id}';switchTab('slips');">
+                🧾 ${isMr ? 'पगार स्लिप पहा' : 'View Payslip'}
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="uiState.mainIndivEmpId=null;renderApp();">
+                ✕ ${isMr ? 'बंद करा' : 'Close'}
+              </button>
+            </div>
+          </div>
+
+          <div class="kpi-grid" style="margin-bottom:14px;">
+            <div class="kpi-card" style="padding:10px 14px;"><div><div style="font-size:0.75rem;">हजर (P)</div><b>${stats.P} दिवस</b></div></div>
+            <div class="kpi-card" style="padding:10px 14px;"><div><div style="font-size:0.75rem;">गैरहजर (A)</div><b>${stats.A} दिवस</b></div></div>
+            <div class="kpi-card" style="padding:10px 14px;"><div><div style="font-size:0.75rem;">हाफ डे (H)</div><b>${stats.H} दिवस</b></div></div>
+            <div class="kpi-card" style="padding:10px 14px;"><div><div style="font-size:0.75rem;">सी.एल. (CL)</div><b>${stats.paidCL} पगारी</b></div></div>
+            <div class="kpi-card" style="padding:10px 14px;"><div><div style="font-size:0.75rem;">देय दिवस</div><b style="color:var(--primary);">${stats.payableDays} / ${stats.totalDaysInCycle}</b></div></div>
+            <div class="kpi-card" style="padding:10px 14px;"><div><div style="font-size:0.75rem;">निव्वळ वेतन</div><b style="color:var(--primary);">${formatCurrency(stats.netPayable)}</b></div></div>
+          </div>
+
+          <div style="font-size:0.82rem;color:var(--ink-muted);">
+            <b>बँक:</b> ${esc(indivEmp.bankName || '—')} | <b>A/C:</b> ${esc(indivEmp.accNo || '—')} | <b>IFSC:</b> ${esc(indivEmp.ifsc || '—')} | <b>PF:</b> ${indivEmp.pfPercent ? indivEmp.pfPercent + '%' : 'नाही'} | <b>PT:</b> ${indivEmp.ptExempt ? 'सूट' : 'नियमित'}
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  const indivOptions = emps.map(e => `
+    <option value="${e.id}" ${uiState.mainIndivEmpId === e.id ? 'selected' : ''}>${esc(e.name)} — ${esc(e.post || '')}</option>
+  `).join('');
+
+  const rows = emps.map(e => {
+    const s = getEmpCycleStats(e, cycle);
+    return `
+      <tr>
+        <td style="font-weight:700;">${esc(e.name)}</td>
+        <td><span class="badge badge-gray">${esc(e.post || '—')}</span></td>
+        <td class="num">${s.P}</td>
+        <td class="num">${s.A}</td>
+        <td class="num">${s.H}</td>
+        <td class="num">${s.paidCL}</td>
+        <td class="num">${s.paidWO}</td>
+        <td class="num" style="font-weight:800;color:var(--primary);">${s.payableDays} / ${s.totalDaysInCycle}</td>
+        <td class="num">${formatCurrency(e.salary)}</td>
+        <td class="num">${formatCurrency(s.earnedBasic)}</td>
+        <td class="num">${s.advanceDeduction > 0 ? `−${formatCurrency(s.advanceDeduction)}` : '—'}</td>
+        <td class="num" style="font-weight:800;color:var(--primary);">${formatCurrency(s.netPayable)}</td>
+        <td>
+          <button class="btn btn-outline btn-sm" onclick="adminSelectIndivEmp('${e.id}')">
+            👤 ${isMr ? 'तपशील अहवाल' : 'Details'}
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  return `
+    <div class="panel-card">
+      <div class="panel-header">
+        <div>
+          <button class="btn btn-outline btn-sm" style="margin-bottom:8px;" onclick="adminCloseBranchReports()">
+            ← ${isMr ? 'सर्व शाखांकडे परत (Back to All Branches)' : 'Back to All Branches'}
+          </button>
+          <h2>${esc(branch.name)} (${esc(branch.district)}) — ${isMr ? 'शाखा अहवाल' : 'Branch Report'}</h2>
+          <p>${isMr ? 'वेतन चक्र' : 'Cycle'}: <b>${esc(cycle.label)}</b> (${cycle.start} ${isMr ? 'ते' : 'to'} ${cycle.end})</p>
+        </div>
+
+        <div class="panel-toolbar">
+          <div class="form-field" style="flex-direction:row;align-items:center;gap:8px;">
+            <label style="margin:0;">${isMr ? 'वेतन चक्र' : 'Cycle'}:</label>
+            <select onchange="changeCycle(this.value)">
+              ${getAvailableCycles().map(c => `<option value="${c.id}" ${c.id === cycle.id ? 'selected' : ''}>${esc(c.label)}</option>`).join('')}
+            </select>
+          </div>
+
+          <button class="btn btn-outline btn-sm" onclick="exportMusterExcelOnly('${branch.id}', '${cycle.id}')">
+            📥 ${isMr ? 'मस्टर Excel' : 'Muster Excel'}
+          </button>
+        </div>
+      </div>
+
+      <!-- Individual Employee Report Picker -->
+      <div style="background:#f1f5f9;border-radius:8px;padding:14px;margin-bottom:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+        <label style="font-weight:700;font-size:0.88rem;">👤 ${isMr ? 'वैयक्तिक कर्मचारी अहवाल तपासा:' : 'Check Individual Employee Report:'}</label>
+        <select id="adminIndivEmpPicker" style="max-width:280px;" onchange="adminSelectIndivEmp(this.value)">
+          <option value="">${isMr ? '-- कर्मचारी निवडा --' : '-- Select Staff --'}</option>
+          ${indivOptions}
+        </select>
+      </div>
+
+      ${indivReportHtml}
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>${isMr ? 'कर्मचारी' : 'Staff'}</th>
+              <th>${isMr ? 'पद' : 'Designation'}</th>
+              <th class="num">P</th>
+              <th class="num">A</th>
+              <th class="num">H</th>
+              <th class="num">CL</th>
+              <th class="num">WO</th>
+              <th class="num">${isMr ? 'देय दिवस' : 'Payable Days'}</th>
+              <th class="num">${isMr ? 'मूळ पगार' : 'Basic'}</th>
+              <th class="num">${isMr ? 'कमावलेला' : 'Earned'}</th>
+              <th class="num">${isMr ? 'ॲडव्हान्स' : 'Adv'}</th>
+              <th class="num">${isMr ? 'अंतिम देय' : 'Net Pay'}</th>
+              <th>${isMr ? 'वैयक्तिक अहवाल' : 'Individual'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows || `<tr><td colspan="13" style="text-align:center;padding:24px;">${isMr ? 'कर्मचारी नाहीत.' : 'No staff.'}</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function adminSelectIndivEmp(empId) {
+  uiState.mainIndivEmpId = empId;
+  renderApp();
+}
+
+/* 2. DATE CHANGE APPROVALS (MAIN ADMIN) */
+function renderMainApprovalsView() {
+  const isMr = (currentLang === 'mr');
+  const reqs = (DATA.dateChangeRequests || []).sort((a, b) => b.requestedAt.localeCompare(a.requestedAt));
+
+  const rows = reqs.map(r => `
+    <tr>
+      <td><b>${esc(r.branchName || 'शाखा')}</b></td>
+      <td><span class="badge badge-gray">${esc(r.date)}</span></td>
+      <td>${esc(r.reason || '—')}</td>
+      <td><span style="font-size:0.75rem;color:var(--ink-muted);">${r.requestedAt.slice(0, 16).replace('T', ' ')}</span></td>
+      <td>
+        ${r.status === 'pending' ? `<span class="badge badge-H">${isMr ? 'प्रलंबित' : 'Pending'}</span>` :
+          (r.status === 'approved' ? `<span class="badge badge-P">${isMr ? 'मंजूर' : 'Approved'}</span>` : `<span class="badge badge-A">${isMr ? 'नाकारले' : 'Rejected'}</span>`)}
+      </td>
+      <td>
+        ${r.status === 'pending' ? `
+          <button class="btn btn-success btn-sm" onclick="approveDateChangeRequest('${r.id}')">✅ ${isMr ? 'मंजूर करा' : 'Approve'}</button>
+          <button class="btn btn-danger btn-sm" onclick="rejectDateChangeRequest('${r.id}')">❌ ${isMr ? 'नाकारा' : 'Reject'}</button>
+        ` : '—'}
+      </td>
+    </tr>
+  `).join('');
+
+  return `
+    <div class="panel-card">
+      <div class="panel-header">
+        <div>
+          <h2>${isMr ? 'हजेरी तारीख बदल विनंत्या व मंजुरी' : 'Date Change Approvals'}</h2>
+          <p>${isMr ? 'शाखा ऍडमिन्सकडून मागील तारखेची हजेरी बदलण्यासाठी आलेल्या विनंत्या येथे मंजूर किंवा नामंजूर करा.' : 'Approve or reject past date attendance modification requests.'}</p>
+        </div>
+
+        <button class="btn btn-outline btn-sm" onclick="openDirectUnlockModal()">
+          🔓 ${isMr ? 'थेट अनलॉक करा' : 'Direct Unlock'}
+        </button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>${isMr ? 'शाखा' : 'Branch'}</th>
+              <th>${isMr ? 'तारीख' : 'Date'}</th>
+              <th>${isMr ? 'कारण' : 'Reason'}</th>
+              <th>${isMr ? 'वेळ' : 'Time'}</th>
+              <th>${isMr ? 'स्थिती' : 'Status'}</th>
+              <th>${isMr ? 'क्रिया' : 'Action'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows || `<tr><td colspan="6" style="text-align:center;padding:24px;">${isMr ? 'कोणतीही विनंती प्रलंबित नाही.' : 'No pending requests.'}</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+async function approveDateChangeRequest(reqId) {
+  const req = DATA.dateChangeRequests.find(r => r.id === reqId);
+  if (!req) return;
+
+  req.status = 'approved';
+  const key = `${req.branchId}|${req.date}`;
+  if (!DATA.dateChangeApprovals) DATA.dateChangeApprovals = {};
+  DATA.dateChangeApprovals[key] = {
+    status: 'approved',
+    approvedAt: new Date().toISOString()
+  };
+
+  await persist();
+  showToast(`तारीख ${req.date} मंजूर करण्यात आली!`, 'success');
+  renderApp();
+}
+
+async function rejectDateChangeRequest(reqId) {
+  const req = DATA.dateChangeRequests.find(r => r.id === reqId);
+  if (!req) return;
+  req.status = 'rejected';
+  await persist();
+  showToast('विनंती नाकारण्यात आली.', 'error');
+  renderApp();
+}
+
+function openDirectUnlockModal() {
+  const isMr = (currentLang === 'mr');
+  const branchOpts = DATA.branches.map(b => `<option value="${b.id}">${esc(b.name)}</option>`).join('');
+  const html = `
+    <h3 style="margin-bottom:14px;color:var(--primary);font-weight:800;">${isMr ? 'तारीख थेट अनलॉक करा' : 'Direct Unlock Date'}</h3>
+    <form onsubmit="handleDirectUnlock(event)">
+      <div class="form-field" style="margin-bottom:14px;">
+        <label>${isMr ? 'शाखा निवडा *' : 'Select Branch *'}</label>
+        <select id="unlockBranchId">${branchOpts}</select>
+      </div>
+      <div class="form-field" style="margin-bottom:16px;">
+        <label>${isMr ? 'अनलॉक करावयाची तारीख *' : 'Date to Unlock *'}</label>
+        <input type="date" id="unlockDate" required value="${todayStr()}">
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;">
+        <button type="button" class="btn btn-outline" onclick="closeModal()">${isMr ? 'रद्द करा' : 'Cancel'}</button>
+        <button type="submit" class="btn btn-primary">${isMr ? 'अनलॉक करा' : 'Unlock'}</button>
+      </div>
+    </form>
+  `;
+  openModal(html);
+}
+
+async function handleDirectUnlock(e) {
+  e.preventDefault();
+  const bId = document.getElementById('unlockBranchId').value;
+  const d = document.getElementById('unlockDate').value;
+  const key = `${bId}|${d}`;
+  if (!DATA.dateChangeApprovals) DATA.dateChangeApprovals = {};
+  DATA.dateChangeApprovals[key] = { status: 'approved', approvedAt: new Date().toISOString() };
+  await persist();
+  closeModal();
+  showToast(`तारीख ${d} अनलॉक केली गेली!`, 'success');
+  renderApp();
+}
+
+/* 3. CONSOLIDATED PAYROLL (20th TO 19th CYCLE) */
+function renderMainConsolidatedPayroll(cycle) {
+  const isMr = (currentLang === 'mr');
+  let rows = '';
+
+  DATA.branches.forEach(b => {
+    const emps = DATA.employees.filter(e => e.branchId === b.id);
+    emps.forEach(e => {
+      const s = getEmpCycleStats(e, cycle);
+      rows += `
+        <tr>
+          <td><b>${esc(b.name)}</b></td>
+          <td style="font-weight:600;">${esc(e.name)}</td>
+          <td><span class="badge badge-gray">${esc(e.post || '—')}</span></td>
+          <td class="num">${s.payableDays} / ${s.totalDaysInCycle}</td>
+          <td class="num">${formatCurrency(e.salary)}</td>
+          <td class="num">${formatCurrency(s.earnedBasic)}</td>
+          <td class="num">${s.advanceDeduction > 0 ? `−${formatCurrency(s.advanceDeduction)}` : '—'}</td>
+          <td class="num">${s.pfDeduction > 0 ? `−${formatCurrency(s.pfDeduction)}` : '—'}</td>
+          <td class="num">${s.ptDeduction > 0 ? `−${formatCurrency(s.ptDeduction)}` : '—'}</td>
+          <td class="num" style="font-weight:800;color:var(--primary);">${formatCurrency(s.netPayable)}</td>
+          <td style="font-size:0.75rem;">${esc(e.bankName || '—')} (A/C: ${esc(e.accNo || '—')})</td>
+        </tr>
+      `;
+    });
+  });
+
+  return `
+    <div class="panel-card">
+      <div class="panel-header">
+        <div>
+          <h2>${isMr ? 'सर्व शाखा एकत्रित वेतन अहवाल' : 'Consolidated Payroll Report'} (${esc(cycle.label)})</h2>
+          <p>${isMr ? '२० तारखेपासून पुढील १९ तारखेपर्यंतचा सर्व शाखांचा पगार हिशेब.' : 'Payroll from 20th to 19th across all branches.'}</p>
+        </div>
+
+        <div class="panel-toolbar">
+          <div class="form-field" style="flex-direction:row;align-items:center;gap:8px;">
+            <label style="margin:0;">${isMr ? 'वेतन चक्र' : 'Cycle'}:</label>
+            <select onchange="changeCycle(this.value)">
+              ${getAvailableCycles().map(c => `<option value="${c.id}" ${c.id === cycle.id ? 'selected' : ''}>${esc(c.label)}</option>`).join('')}
+            </select>
+          </div>
+
+          <button class="btn btn-outline" onclick="exportConsolidatedCsv('${cycle.id}')">
+            📥 CSV
+          </button>
+          <button class="btn btn-primary" onclick="window.print()">
+            🖨️ ${isMr ? 'प्रिंट' : 'Print'}
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>${isMr ? 'शाखा' : 'Branch'}</th>
+              <th>${isMr ? 'कर्मचारी' : 'Staff'}</th>
+              <th>${isMr ? 'पद' : 'Designation'}</th>
+              <th class="num">${isMr ? 'देय दिवस' : 'Payable'}</th>
+              <th class="num">${isMr ? 'मूळ पगार' : 'Basic'}</th>
+              <th class="num">${isMr ? 'कमावलेला' : 'Earned'}</th>
+              <th class="num">${isMr ? 'ॲडव्हान्स' : 'Adv'}</th>
+              <th class="num">PF</th>
+              <th class="num">PT</th>
+              <th class="num">${isMr ? 'अंतिम देय' : 'Net Pay'}</th>
+              <th>${isMr ? 'बँक तपशील' : 'Bank'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows || `<tr><td colspan="11" style="text-align:center;padding:24px;">${isMr ? 'कोणतेही रेकॉर्ड उपलब्ध नाहीत.' : 'No records.'}</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function exportConsolidatedCsv(cycleId) {
+  const cycle = parseCycleId(cycleId);
+  let csv = 'शाखा,जिल्हा,कर्मचारी,पद,कालावधी,देय दिवस,मूळ पगार,कमावलेला,ॲडव्हान्स कपात,PF,PT,अंतिम देय,बँक नाव,खाते क्रमांक,IFSC कोड\n';
+
+  DATA.branches.forEach(b => {
+    DATA.employees.filter(e => e.branchId === b.id).forEach(e => {
+      const s = getEmpCycleStats(e, cycle);
+      csv += `"${b.name}","${b.district}","${e.name}","${e.post || ''}","${cycle.start} to ${cycle.end}",${s.payableDays},${e.salary},${s.earnedBasic},${s.advanceDeduction},${s.pfDeduction},${s.ptDeduction},${s.netPayable},"${e.bankName || ''}","${e.accNo || ''}","${e.ifsc || ''}"\n`;
+    });
+  });
+
+  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `Vedant_सर्व_शाखा_वेतन_${cycle.start}_ते_${cycle.end}.csv`;
+  a.click();
+}
+
+/* 4. ALL ADVANCES (MAIN ADMIN) */
+function renderMainAllAdvances(cycle) {
+  const isMr = (currentLang === 'mr');
+  const allAdvs = [...DATA.advances].sort((x, y) => y.date.localeCompare(x.date));
+
+  const rows = allAdvs.map(a => {
+    const branch = DATA.branches.find(b => b.id === a.branchId);
+    const emp = DATA.employees.find(e => e.id === a.empId);
+    const remaining = advanceRemainingForCycle(a, cycle);
+
+    return `
+      <tr>
+        <td><b>${esc(branch ? branch.name : '—')}</b></td>
+        <td style="font-weight:600;">${esc(emp ? emp.name : '(हटवलेला कर्मचारी)')}</td>
+        <td>${esc(a.date)}</td>
+        <td class="num">${formatCurrency(a.amount)}</td>
+        <td class="num">${formatCurrency(a.monthlyDeduction)} / म</td>
+        <td class="num">${remaining > 0 ? `<b style="color:var(--c-absent);">${formatCurrency(remaining)}</b>` : '<span class="badge badge-P">पूर्ण फेड</span>'}</td>
+        <td>${esc(a.note || '—')}</td>
+      </tr>
+    `;
+  }).join('');
+
+  return `
+    <div class="panel-card">
+      <div class="panel-header">
+        <div>
+          <h2>${isMr ? 'सर्व शाखा ॲडव्हान्स नोंदी व थकबाकी लेजर' : 'All Branches Advance Ledger'}</h2>
+          <p>${isMr ? 'प्रत्येक शाखेने दिलेले ॲडव्हान्स व चालू चक्रातील शिल्लक रक्कम.' : 'Total advances & balance across all branches.'}</p>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>${isMr ? 'शाखा' : 'Branch'}</th>
+              <th>${isMr ? 'कर्मचारी' : 'Staff'}</th>
+              <th>${isMr ? 'तारीख' : 'Date'}</th>
+              <th class="num">${isMr ? 'एकूण ॲडव्हान्स' : 'Amount'}</th>
+              <th class="num">${isMr ? 'मासिक EMI' : 'EMI'}</th>
+              <th class="num">${isMr ? 'शिल्लक थकबाकी' : 'Balance'}</th>
+              <th>${isMr ? 'टीप' : 'Note'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows || `<tr><td colspan="7" style="text-align:center;padding:24px;">${isMr ? 'कोणतीही ॲडव्हान्स नोंद नाही.' : 'No advances.'}</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+/* 5. BRANCH MANAGEMENT (MAIN ADMIN - DHARASHIV CHANGED TO UMARGA) */
+function renderMainBranchManagement() {
+  const isMr = (currentLang === 'mr');
+  const rows = DATA.branches.map(b => {
+    const emps = DATA.employees.filter(e => e.branchId === b.id);
+    return `
+      <tr>
+        <td style="font-weight:700;">${esc(b.name)}</td>
+        <td>${esc(b.district)}</td>
+        <td class="num"><b>${emps.length}</b></td>
+        <td><code>${esc(b.password)}</code></td>
+        <td>
+          <button class="btn btn-outline btn-sm" onclick="openEditBranchModal('${b.id}')">✏️ ${isMr ? 'बदल करा' : 'Edit'}</button>
+          <button class="btn btn-primary btn-sm" onclick="adminOpenBranchReports('${b.id}')">📊 ${isMr ? 'अहवाल पहा' : 'View Reports'}</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  return `
+    <div class="panel-card">
+      <div class="panel-header">
+        <div>
+          <h2>${isMr ? 'शाखा व्यवस्थापन' : 'Branch Management'}</h2>
+          <p>${isMr ? 'शाखांची नावे, जिल्हे व शाखा पासवर्ड.' : 'Manage branch details and credentials.'}</p>
+        </div>
+
+        <button class="btn btn-primary" onclick="openAddBranchModal()">
+          ➕ ${isMr ? 'नवीन शाखा जोडा' : 'Add Branch'}
+        </button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>${isMr ? 'शाखेचे नाव' : 'Branch Name'}</th>
+              <th>${isMr ? 'जिल्हा' : 'District'}</th>
+              <th class="num">${isMr ? 'कर्मचारी संख्या' : 'Staff Count'}</th>
+              <th>${isMr ? 'लॉगिन पासवर्ड' : 'Password'}</th>
+              <th>${isMr ? 'क्रिया' : 'Action'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function openAddBranchModal() {
+  const isMr = (currentLang === 'mr');
+  const nextNum = DATA.branches.length + 1;
+  const html = `
+    <h3 style="margin-bottom:16px;color:var(--primary);font-weight:800;">${isMr ? 'नवीन शाखा जोडा' : 'Add New Branch'}</h3>
+    <form onsubmit="handleSaveNewBranch(event)">
+      <div class="form-field" style="margin-bottom:14px;">
+        <label>${isMr ? 'शाखेचे नाव *' : 'Branch Name *'}</label>
+        <input type="text" id="newBranchName" required placeholder="उदा. शाखा ६ (उमरगा)" value="शाखा ${nextNum}">
+      </div>
+      <div class="form-field" style="margin-bottom:14px;">
+        <label>${isMr ? 'जिल्हा / तालुका *' : 'District *'}</label>
+        <input type="text" id="newBranchDist" required placeholder="उदा. उमरगा (Umarga)">
+      </div>
+      <div class="form-field" style="margin-bottom:16px;">
+        <label>${isMr ? 'शाखा लॉगिन पासवर्ड *' : 'Branch Password *'}</label>
+        <input type="text" id="newBranchPass" required value="branch${nextNum}">
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;gap:10px;">
+        <button type="button" class="btn btn-outline" onclick="closeModal()">${isMr ? 'रद्द करा' : 'Cancel'}</button>
+        <button type="submit" class="btn btn-primary">${isMr ? 'शाखा जोडा' : 'Save Branch'}</button>
+      </div>
+    </form>
+  `;
+  openModal(html);
+}
+
+async function handleSaveNewBranch(e) {
+  e.preventDefault();
+  const name = document.getElementById('newBranchName').value.trim();
+  const district = document.getElementById('newBranchDist').value.trim();
+  const password = document.getElementById('newBranchPass').value.trim();
+
+  DATA.branches.push({ id: 'b_' + uid(), name, district, password });
+  await persist();
+  closeModal();
+  showToast(`"${name}" जोडली गेली!`, 'success');
+  renderApp();
+}
+
+function openEditBranchModal(branchId) {
+  const isMr = (currentLang === 'mr');
+  const b = DATA.branches.find(x => x.id === branchId);
+  if (!b) return;
+
+  const html = `
+    <h3 style="margin-bottom:16px;color:var(--primary);font-weight:800;">${isMr ? 'शाखा माहिती बदला' : 'Edit Branch'}</h3>
+    <form onsubmit="handleUpdateBranch(event, '${b.id}')">
+      <div class="form-field" style="margin-bottom:14px;">
+        <label>${isMr ? 'शाखेचे नाव *' : 'Branch Name *'}</label>
+        <input type="text" id="editBranchName" required value="${esc(b.name)}">
+      </div>
+      <div class="form-field" style="margin-bottom:14px;">
+        <label>${isMr ? 'जिल्हा / तालुका *' : 'District *'}</label>
+        <input type="text" id="editBranchDist" required value="${esc(b.district)}">
+      </div>
+      <div class="form-field" style="margin-bottom:16px;">
+        <label>${isMr ? 'शाखा लॉगिन पासवर्ड *' : 'Password *'}</label>
+        <input type="text" id="editBranchPass" required value="${esc(b.password)}">
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;gap:10px;">
+        <button type="button" class="btn btn-outline" onclick="closeModal()">${isMr ? 'रद्द करा' : 'Cancel'}</button>
+        <button type="submit" class="btn btn-primary">${isMr ? 'बदल जतन करा' : 'Save Changes'}</button>
+      </div>
+    </form>
+  `;
+  openModal(html);
+}
+
+async function handleUpdateBranch(e, branchId) {
+  e.preventDefault();
+  const b = DATA.branches.find(x => x.id === branchId);
+  if (!b) return;
+
+  b.name = document.getElementById('editBranchName').value.trim();
+  b.district = document.getElementById('editBranchDist').value.trim();
+  b.password = document.getElementById('editBranchPass').value.trim();
+
+  await persist();
+  closeModal();
+  showToast('शाखा माहिती अद्ययावत झाली!', 'success');
+  renderApp();
+}
+
+/* 6. SYSTEM SETTINGS */
+function renderMainSettingsView() {
+  const isMr = (currentLang === 'mr');
+  const s = DATA.settings;
+
+  return `
+    <div class="panel-card">
+      <div class="panel-header">
+        <div>
+          <h2>${isMr ? 'प्रणाली सेटिंग्ज व वेतन नियम' : 'System & Payroll Rules'}</h2>
+          <p>${isMr ? 'हजेरी नियम व वैधानिक कर नियम.' : 'Attendance and statutory tax rules.'}</p>
+        </div>
+      </div>
+
+      <form onsubmit="handleSaveGlobalSettings(event)" style="max-width:680px;">
+        <div class="form-grid">
+          <div class="form-field">
+            <label>${isMr ? 'दरमहा अनुज्ञेय सी.एल. (पगारी रजा)' : 'Allowed CL per Month'}</label>
+            <input type="number" id="setClAllowed" value="${s.clAllowedPerMonth}" min="0" required>
+          </div>
+
+          <div class="form-field">
+            <label>${isMr ? 'वेतन चक्र कालावधी' : 'Salary Cycle Standard'}</label>
+            <input type="text" value="${isMr ? '२० तारखेपासून पुढील १९ तारखेपर्यंत (20th to 19th)' : '20th to 19th Period'}" disabled style="background:#f1f5f9;">
+          </div>
+        </div>
+
+        <div class="form-grid" style="margin-top:14px;">
+          <div class="form-field">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="checkbox" id="setPaidWO" ${s.paidWeeklyOff ? 'checked' : ''}>
+              <b>${isMr ? 'रविवार (साप्ताहिक सुट्टी) पगारी धरा' : 'Paid Weekly Off (Sunday)'}</b>
+            </label>
+          </div>
+
+          <div class="form-field">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="checkbox" id="setPT" ${s.ptEnabled ? 'checked' : ''}>
+              <b>${isMr ? 'महाराष्ट्र व्यवसाय कर (PT) लागू करा' : 'Maharashtra Professional Tax (PT)'}</b>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-field" style="margin-top:16px;">
+          <label>${isMr ? 'मुख्य ऍडमिन पासवर्ड बदला (Master Password)' : 'Master Admin Password'}</label>
+          <input type="text" id="setAdminPass" value="${esc(DATA.mainAdminPassword || MASTER_ADMIN_DEFAULT_PASS)}">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin-top:20px;">
+          💾 ${isMr ? 'सेटिंग्ज जतन करा' : 'Save Settings'}
+        </button>
+      </form>
+    </div>
+
+    <div class="panel-card">
+      <div class="panel-header">
+        <div>
+          <h2>${isMr ? 'संपूर्ण डेटा बॅकअप व पुनर्संचयन' : 'Backup & Restore'}</h2>
+          <p>${isMr ? 'स्थानिक डेटा सुरक्षित डाऊनलोड किंवा अपलोड करा.' : 'Safely export or import full system JSON backup.'}</p>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+        <button class="btn btn-outline" onclick="downloadCompleteBackup()">
+          💾 ${isMr ? 'संपूर्ण डेटा डाऊनलोड करा (JSON)' : 'Download Backup (JSON)'}
+        </button>
+
+        <label class="btn btn-primary" style="margin:0;cursor:pointer;">
+          📥 ${isMr ? 'बॅकअप फाईल अपलोड करा (Restore)' : 'Restore Backup'}
+          <input type="file" accept="application/json" onchange="restoreCompleteBackup(event)" style="display:none;">
+        </label>
+      </div>
+    </div>
+  `;
+}
+
+async function handleSaveGlobalSettings(e) {
+  e.preventDefault();
+  DATA.settings.clAllowedPerMonth = Number(document.getElementById('setClAllowed').value) || 0;
+  DATA.settings.paidWeeklyOff = document.getElementById('setPaidWO').checked;
+  DATA.settings.ptEnabled = document.getElementById('setPT').checked;
+  DATA.mainAdminPassword = document.getElementById('setAdminPass').value.trim() || MASTER_ADMIN_DEFAULT_PASS;
+
+  await persist();
+  showToast('सेटिंग्ज जतन झाल्या!', 'success');
+  renderApp();
+}
+
+function downloadCompleteBackup() {
+  const backupObj = {
+    app: 'Vedant_Attendance_System',
+    version: 4,
+    exportedAt: new Date().toISOString(),
+    data: DATA
+  };
+  const str = JSON.stringify(backupObj, null, 2);
+  const blob = new Blob([str], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `Vedant_Enterprises_Backup_${todayStr()}.json`;
+  a.click();
+}
+
+function restoreCompleteBackup(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (!confirm('सावधान! सध्याचा संपूर्ण डेटा बदलला जाईल. पुढे जायचे का?')) {
+    e.target.value = '';
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = async () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+      const incoming = parsed.data || parsed;
+      if (!incoming || !Array.isArray(incoming.branches)) throw new Error('अवैध फाईल');
+      DATA = incoming;
+      if (!DATA.advances) DATA.advances = [];
+      if (!DATA.dateChangeApprovals) DATA.dateChangeApprovals = {};
+      if (!DATA.dateChangeRequests) DATA.dateChangeRequests = [];
+      if (!DATA.employees) DATA.employees = [];
+      await persist();
+      showToast('डेटा रिस्टोअर झाला!', 'success');
+      renderApp();
+    } catch (err) {
+      alert('बॅकअप फाईल वाचता आली नाही.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* ---------------- PWA INSTALLATION TRIGGER ---------------- */
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  checkPwaInstallable();
+});
+
+function checkPwaInstallable() {
+  const btn = document.getElementById('pwaInstallBtn');
+  const loginBtn = document.getElementById('pwaLoginInstallBtn');
+  if (btn && deferredPrompt) btn.style.display = 'flex';
+  if (loginBtn && deferredPrompt) loginBtn.style.display = 'flex';
+}
+
+function triggerPwaInstall() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        showToast(currentLang === 'mr' ? 'ऍप इन्स्टॉल केले जात आहे!' : 'Installing app...', 'success');
+      }
+      deferredPrompt = null;
+      checkPwaInstallable();
+    });
+  }
+}
+
+// Register Service Worker for offline & install capability
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+}
+
+/* ---------------- STARTUP INITIALIZER ---------------- */
+(function initApp() {
+  loadLocalData();
+  loadRememberedSession();
+  renderApp();
+})();
+</script>
+</body>
+</html>
