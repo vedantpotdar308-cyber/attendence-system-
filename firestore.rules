@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Validator Function Pattern to ensure data integrity and prevent corruption
+    function isValidSyncPayload(data) {
+      return data.keys().hasAll(['data', 'senderClientId'])
+        && data.senderClientId is string
+        && data.senderClientId.size() > 0
+        && data.senderClientId.size() <= 128
+        && data.data is map
+        && (!('revision' in data) || data.revision is int || data.revision is number)
+        && (!('updatedAt' in data) || data.updatedAt is string || data.updatedAt is timestamp);
+    }
+
+    // Vedant Enterprises Attendance & Payroll real-time sync collection
+    match /vedant_attendance/{docId} {
+      allow read: if true;
+      allow create: if isValidSyncPayload(request.resource.data);
+      allow update: if isValidSyncPayload(request.resource.data);
+      allow delete: if false;
+    }
+
+    // Default deny all other paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

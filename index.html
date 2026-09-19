@@ -14,6 +14,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Firebase Cloud & Real-Time Sync SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <!-- Real-Time Sync Engine -->
 <script src="sync.js"></script>
 
@@ -2140,27 +2143,31 @@ function renderMobileBottomNav() {
 
 function openSyncSettingsModal() {
   const isMr = (currentLang === 'mr');
-  const currentUrl = typeof SyncEngine !== 'undefined' ? SyncEngine.getServerUrl() : 'http://localhost:5000';
+  const isCloud = (typeof SyncEngine !== 'undefined' && SyncEngine.syncMode === 'cloud' && SyncEngine.firestoreDb);
   const status = typeof SyncEngine !== 'undefined' ? SyncEngine.status : 'offline';
   const statusLabel = status === 'online'
-    ? (isMr ? '🟢 ऑनलाइन व सिंक सक्रिय (Connected)' : '🟢 Online & Live Synced')
-    : (status === 'syncing' ? (isMr ? '🔄 सिंक होत आहे...' : '🔄 Syncing...') : (isMr ? '⚪ स्थानिक मोड (ऑफलाइन)' : '⚪ Offline / Local'));
+    ? (isCloud ? (isMr ? '☁️ 🟢 क्लाउड सिंक सक्रिय (Firebase)' : '☁️ 🟢 Cloud Synced (Firebase)') : (isMr ? '🟢 लोकल सिंक सक्रिय' : '🟢 Local Synced'))
+    : (status === 'syncing' ? (isMr ? '🔄 सिंक होत आहे...' : '🔄 Syncing...') : (isMr ? '⚪ ऑफलाइन मोड' : '⚪ Offline / Local'));
 
   openModal(`
     <div style="padding:10px;">
       <h3 style="margin-bottom:12px;color:var(--primary);font-weight:800;display:flex;align-items:center;gap:8px;">
-        <span>🔄</span> ${isMr ? 'मल्टि-डिव्हाइस ऑटोमॅटिक सिंक' : 'Multi-Device Automatic Sync'}
+        <span>☁️</span> ${isMr ? 'फायरबेस क्लाउड ऑटोमॅटिक सिंक' : 'Firebase Cloud Automatic Sync'}
       </h3>
       <p style="font-size:0.86rem;color:var(--ink-muted);margin-bottom:16px;line-height:1.5;">
         ${isMr
-          ? 'कोणत्याही शाखेतून किंवा ऍडमिनने मोबाईल अथवा लॅपटॉपवरून केलेली हजेरी किंवा बदल <b>दुसऱ्या सर्व डिव्हाइसेसवर आपोआप रिअल-टाईम सिंक</b> होतात.'
-          : 'Any attendance or updates made by any branch or admin <b>automatically sync across all devices</b> in real time.'}
+          ? 'तुमचा सर्व डेटा (हजेरी, मस्टर, ॲडव्हान्स) <b>Firebase Cloud (Firestore)</b> मध्ये सुरक्षित सेव्ह होतो आणि सर्व मोबाईल व लॅपटॉपवर आपोआप रिअल-टाईम सिंक होतो.'
+          : 'All data is securely stored in <b>Firebase Cloud (Firestore)</b> and automatically synchronizes across all branches, phones, and laptops.'}
       </p>
 
       <div style="background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:16px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-          <span style="font-weight:700;font-size:0.85rem;">${isMr ? 'सध्याची सिंक स्थिती:' : 'Current Sync Status:'}</span>
+          <span style="font-weight:700;font-size:0.85rem;">${isMr ? 'सिंक स्थिती:' : 'Sync Status:'}</span>
           <span style="font-weight:700;font-size:0.85rem;">${statusLabel}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;color:var(--ink-muted);margin-bottom:6px;">
+          <span>${isMr ? 'क्लाउड प्रोजेक्ट:' : 'Cloud Project:'}</span>
+          <span style="font-family:monospace;font-weight:600;">vedant-enterprises-6544a</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;color:var(--ink-muted);">
           <span>${isMr ? 'शेवटचा सिंक:' : 'Last Synced:'}</span>
@@ -2168,35 +2175,20 @@ function openSyncSettingsModal() {
         </div>
       </div>
 
-      <div class="form-field" style="margin-bottom:14px;">
-        <label>${isMr ? 'सिंक सर्व्हर पत्ता (Server URL):' : 'Sync Server URL:'}</label>
-        <input type="text" id="syncServerUrlInp" value="${esc(currentUrl)}" placeholder="http://192.168.x.x:5000">
-        <small style="color:var(--ink-muted);font-size:0.75rem;margin-top:4px;">
-          ${isMr ? 'वाय-फाय नेटवर्क पत्ता किंवा क्लाउड सर्व्हर पत्ता' : 'Local Wi-Fi IP or Cloud Server URL'}
-        </small>
-      </div>
-
       <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap;">
-        <button class="btn btn-outline" onclick="handleManualSyncPull()">${isMr ? 'ताजी माहिती आणा (Pull)' : 'Pull Data'}</button>
-        <button class="btn btn-primary" onclick="handleSaveSyncUrl()">${isMr ? 'जतन करा व कनेक्ट करा' : 'Save & Connect'}</button>
+        <button class="btn btn-outline" onclick="closeModal()">${isMr ? 'बंद करा' : 'Close'}</button>
+        <button class="btn btn-primary" onclick="handleManualSyncPull()">${isMr ? '☁️ आत्ता क्लाउड सिंक करा' : '☁️ Sync with Cloud Now'}</button>
       </div>
     </div>
   `);
 }
 
-async function handleSaveSyncUrl() {
-  const inp = document.getElementById('syncServerUrlInp');
-  if (inp && typeof SyncEngine !== 'undefined') {
-    SyncEngine.setServerUrl(inp.value.trim());
-    showToast(currentLang === 'mr' ? 'सिंक सर्व्हर अद्ययावत झाला!' : 'Sync server updated!', 'success');
-    closeModal();
-  }
-}
-
 async function handleManualSyncPull() {
   if (typeof SyncEngine !== 'undefined') {
-    showToast(currentLang === 'mr' ? 'सर्व्हरवरून सिंक सुरू आहे...' : 'Syncing from server...', 'info');
-    await SyncEngine.initialFetch();
+    showToast(currentLang === 'mr' ? 'क्लाउडवरून सिंक सुरू आहे...' : 'Syncing with cloud...', 'info');
+    if (DATA) {
+      await SyncEngine.pushUpdate(DATA);
+    }
   }
   closeModal();
 }
@@ -4565,11 +4557,11 @@ if ('serviceWorker' in navigator) {
         DATA = remoteData;
         saveDataLocal();
         if (isLivePush) {
-          showToast(currentLang === 'mr' ? '🔄 डेटा आपोआप सिंक झाला!' : '🔄 Data synced live!', 'success');
+          showToast(currentLang === 'mr' ? '🔄 क्लाउडवरून डेटा सिंक झाला!' : '🔄 Data synced from cloud!', 'success');
         }
         renderApp();
       }
-    });
+    }, DATA);
   }
 })();
 </script>
