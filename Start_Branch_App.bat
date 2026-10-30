@@ -1,5 +1,5 @@
 @echo off
-title Vedant Enterprises - Branch Attendance
+title Vedant Enterprises - Attendance & Payroll Portal
 cd /d "%~dp0"
 
 set "TARGET_URL=file:///%~dp0index.html"

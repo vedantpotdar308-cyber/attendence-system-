@@ -38,39 +38,31 @@ function initDatabase() {
     console.error('Error loading database:', err.message);
   }
 
-  if (!DB || !DB.branches) {
+  if (!DB || typeof DB !== 'object') {
     DB = {
-      version: 4,
-      mainAdminPassword: 'admin123',
-      branches: [
-        { id: 'b1', name: 'शाखा १ (लातूर)', district: 'लातूर (Latur)', password: 'branch1' },
-        { id: 'b2', name: 'शाखा २ (नांदेड)', district: 'नांदेड (Nanded)', password: 'branch2' },
-        { id: 'b3', name: 'शाखा ३ (उमरगा)', district: 'उमरगा (Umarga)', password: 'branch3' },
-        { id: 'b4', name: 'शाखा ४ (बीड)', district: 'बीड (Beed)', password: 'branch4' },
-        { id: 'b5', name: 'शाखा ५ (सोलापूर)', district: 'सोलापूर (Solapur)', password: 'branch5' }
-      ],
+      version: 5,
+      companyName: 'Vedant Enterprises',
+      mainAdminPassword: 'admin',
       employees: [],
       attendance: {},
+      overtime: {},
       advances: [],
       dateChangeApprovals: {},
       dateChangeRequests: [],
       settings: {
         clAllowedPerMonth: 1,
         paidWeeklyOff: true,
-        ptEnabled: true
+        ptEnabled: true,
+        otRatePerHour: 74
       }
     };
     saveDatabase();
-  }
-
-  // Ensure Umarga naming
-  if (DB.branches) {
-    DB.branches.forEach(b => {
-      if (b.name && (b.name.includes('धाराशिव') || b.name.includes('Dharashiv'))) {
-        b.name = 'शाखा ३ (उमरगा)';
-        b.district = 'उमरगा (Umarga)';
-      }
-    });
+  } else {
+    if (DB.branches) delete DB.branches;
+    if (!DB.overtime) DB.overtime = {};
+    if (!DB.settings) DB.settings = {};
+    if (typeof DB.settings.otRatePerHour !== 'number') DB.settings.otRatePerHour = 74;
+    if (!DB.mainAdminPassword || DB.mainAdminPassword === 'admin123') DB.mainAdminPassword = 'admin';
   }
 }
 
