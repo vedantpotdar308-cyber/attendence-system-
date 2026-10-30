@@ -1,3 +1,11 @@
+# 🌐 [👉 येथे क्लिक करा: ऑनलाईन वेबसाईट उघडा (OPEN LIVE WEBSITE)](https://vedantpotdar308-cyber.github.io/attendence-system-/)
+
+### 🔗 **अधिकृत वेबसाईट लिंक (Live URL)**:
+### **👉 [https://vedantpotdar308-cyber.github.io/attendence-system-/](https://vedantpotdar308-cyber.github.io/attendence-system-/)**
+*(टीप: रिपॉझिटरी नावाच्या शेवटी `-` चिन्ह आहे / Note: Repository name includes trailing dash `-`)*
+
+---
+
 # Vedant Enterprises — कर्मचारी हजेरी, ओव्हरटाईम व वेतन व्यवस्थापन वेबसाईट
 ### Professional Attendance, Overtime & Payroll Web Application (20th to 19th Cycle)
 

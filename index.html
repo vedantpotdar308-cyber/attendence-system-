@@ -3104,7 +3104,9 @@ function showToast(msg, type = 'success') {
 
 /* ---------------- SERVICE WORKER & INITIALIZATION ---------------- */
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(() => {});
+  navigator.serviceWorker.register('./sw.js').then((reg) => {
+    reg.update().catch(() => {});
+  }).catch(() => {});
 }
 
 (function init() {
